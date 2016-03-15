@@ -88,8 +88,8 @@ public class Ship extends SpaceObject
 		int ay = (int) (y - getBody().getAccel().getCompY());
 		event.getContext().drawLine(x, y, ax, ay);
 		event.getContext().setColor(Color.green);
-		int vx = (int) (x + getBody().getVector().getCompX());
-		int vy = (int) (y - getBody().getVector().getCompY());
+		int vx = (int) (x + getBody().getVelocity().getCompX());
+		int vy = (int) (y - getBody().getVelocity().getCompY());
 		event.getContext().drawLine(x, y, vx, vy);
 		event.getContext().setColor(Color.white);
 		int rx = (int) (x + Math.cos(getBody().getRotation()*Math.PI/180.0)*10);

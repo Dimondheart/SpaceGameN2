@@ -20,7 +20,6 @@ public class AstroScene extends xyz.digitalcookies.objective.entity.Scene implem
 	public AstroScene()
 	{
 		super();
-		timer = new StopWatch(xyz.digitalcookies.objective.gamestate.GameState.getClock());
 		setScale(100.0, 1.0);
 		posOffset = new double[2];
 		setOffset(0,0);
@@ -62,7 +61,6 @@ public class AstroScene extends xyz.digitalcookies.objective.entity.Scene implem
 			default:
 				break;
 		}
-		timer.start();
 	}
 	
 	public double getScale()

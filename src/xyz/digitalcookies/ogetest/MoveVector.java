@@ -1,5 +1,7 @@
 package xyz.digitalcookies.ogetest;
 
+import xyz.digitalcookies.objective.utility.ExtendedMath;
+
 public class MoveVector
 {
 	private double magnitude;
@@ -52,7 +54,7 @@ public class MoveVector
 		else
 		{
 			newMag = Math.pow((Math.pow(cx, 2.0) + Math.pow(cy, 2.0)), 0.5);
-			newDir = radToDeg(Math.asin(cy/newMag));
+			newDir = ExtendedMath.radToDeg(Math.asin(cy/newMag));
 		}
 		if (!Double.isFinite(newMag))
 		{
@@ -90,7 +92,7 @@ public class MoveVector
 		else
 		{
 			newMag = Math.pow((Math.pow(cx, 2.0) + Math.pow(cy, 2.0)), 0.5);
-			newDir = radToDeg(Math.acos(cx/newMag));
+			newDir = ExtendedMath.radToDeg(Math.acos(cx/newMag));
 		}
 		if (!Double.isFinite(newMag))
 		{
@@ -120,7 +122,7 @@ public class MoveVector
 	
 	protected double getDirectionRad()
 	{
-		return degToRad(getDirection());
+		return ExtendedMath.degToRad(getDirection());
 	}
 	
 	public void setDirection(double direction)
@@ -130,16 +132,6 @@ public class MoveVector
 		{
 			this.direction = 360 + this.direction;
 		}
-	}
-	
-	protected static double radToDeg(double rad)
-	{
-		return rad * 180.0 / Math.PI;
-	}
-	
-	protected static double degToRad(double deg)
-	{
-		return deg * Math.PI / 180.0;
 	}
 	
 	public void applyAccel(MoveVector accel, double elapsed)
@@ -200,7 +192,7 @@ public class MoveVector
 			return 0;
 		}
 		double dir = 0;
-		dir = radToDeg(Math.atan(Math.abs(cy/cx)));
+		dir = ExtendedMath.radToDeg(Math.atan(Math.abs(cy/cx)));
 		if (cx > 0 && cy > 0)
 		{
 			// do nothing

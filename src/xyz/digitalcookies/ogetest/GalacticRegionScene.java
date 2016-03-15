@@ -14,10 +14,6 @@ public class GalacticRegionScene extends xyz.digitalcookies.objective.entity.Sce
 	private GalacticRegionData newSceneData;
 	private EntityContainer entities;
 	private Player player;
-	private int offsetX;
-	private int offsetY;
-	private double pixelUnitSF;
-	private double realUnitSF;
 	
 	public GalacticRegionScene()
 	{
@@ -26,8 +22,6 @@ public class GalacticRegionScene extends xyz.digitalcookies.objective.entity.Sce
 		enemyDestroyers.setShipID("Destroyer");
 		entities.addEntity(new Ship(this, enemyDestroyers));
 		entities.addEntity(new Asteroid(this));
-		setOffset(0, 0);
-		setScale(1);
 	}
 	
 	@Override
@@ -64,56 +58,13 @@ public class GalacticRegionScene extends xyz.digitalcookies.objective.entity.Sce
 		entities.addEntity(player.getUnit());
 	}
 	
-	public void removePlayer()
-	{
-		player = null;
-	}
-	
-	private void setOffset(int ox, int oy)
-	{
-		System.out.println("OX:" + Integer.toString(ox) + ", OY:" + Integer.toString(oy));
-		offsetX = ox;
-		offsetY = oy;
-	}
-	
 	public void changeRegionData(GalacticRegionData data)
 	{
 		newSceneData = data;
 	}
 	
-	public double getOffsetX()
+	public void removePlayer()
 	{
-		return offsetX;
-	}
-	
-	public double getOffsetY()
-	{
-		return offsetY;
-	}
-	
-	private void setScale(double pixels)
-	{
-		if (pixels == 0)
-		{
-			return;
-		}
-		pixelUnitSF = pixels;
-	}
-	
-	public void zoom(double units)
-	{
-		if (units > 0)
-		{
-			setScale(pixelUnitSF*0.9);
-		}
-		else if (units < 0)
-		{
-			setScale(pixelUnitSF*1.1);
-		}
-	}
-	
-	public double getScale()
-	{
-		return 1 / pixelUnitSF;
+		player = null;
 	}
 }

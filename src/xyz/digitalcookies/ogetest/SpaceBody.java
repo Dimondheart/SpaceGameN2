@@ -3,6 +3,7 @@ package xyz.digitalcookies.ogetest;
 import xyz.digitalcookies.objective.entity.Scene;
 import xyz.digitalcookies.objective.entity.entitymodule.Body;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
+import xyz.digitalcookies.objective.utility.ExtendedMath;
 
 /** Basic body for all bodies in space. */
 public class SpaceBody extends Body
@@ -13,7 +14,7 @@ public class SpaceBody extends Body
 	private double radius;
 	private double rotation;
 	private double rv;
-	private MoveVector vector;
+	private MoveVector velocity;
 	private double maxSpeed;
 	private double vm;
 	private double vd;
@@ -27,8 +28,8 @@ public class SpaceBody extends Body
 		setPos(0, 0);
 		setRadius(6);
 		setMaxSpeed(10);
-		vector = new MoveVector();
-		vector.zeroVector();
+		velocity = new MoveVector();
+		velocity.zeroVector();
 		accel = new MoveVector();
 		accel.zeroVector();
 		setScene(scene);
@@ -129,14 +130,14 @@ public class SpaceBody extends Body
 		this.rv = rv;
 	}
 	
-	public MoveVector getVector()
+	public MoveVector getVelocity()
 	{
-		return vector;
+		return velocity;
 	}
 	
-	public void applyVector(double vm)
+	public void applyVelocity(double vm)
 	{
-		getVector().setVector(vm, rotation);
+		getVelocity().setVector(vm, rotation);
 	}
 	
 	public double getMaxSpeed()
@@ -163,13 +164,13 @@ public class SpaceBody extends Body
 	{
 		long currTime = scene.getTimer().getTimeNano();
 		double elapsed = (currTime - lastUpdate)/1000000.0/1000.0;
-		vector.applyAccel(accel, elapsed);
-		if (vector.getMagnitude() > maxSpeed)
+		velocity.applyAccel(accel, elapsed);
+		if (velocity.getMagnitude() > maxSpeed)
 		{
-			vector.setMagnitude(maxSpeed);
+			velocity.setMagnitude(maxSpeed);
 		}
-		setX(getX() + vector.getCompX()*elapsed);
-		setY(getY() + vector.getCompY()*elapsed);
+		setX(getX() + velocity.getCompX()*elapsed);
+		setY(getY() + velocity.getCompY()*elapsed);
 		setRotation(getRotation() + getRotationVector()*elapsed);
 		lastUpdate = currTime;
 	}
@@ -193,11 +194,6 @@ public class SpaceBody extends Body
 		double dx = other.getX()-getX();
 		double dy = other.getY()-getY();
 		return calcDirection(dx, dy);
-	}
-	
-	protected static double radToDeg(double rad)
-	{
-		return rad * 180.0 / Math.PI;
 	}
 	
 	protected double calcDirection(double cx, double cy)
@@ -228,7 +224,7 @@ public class SpaceBody extends Body
 			return 0;
 		}
 		double dir = 0;
-		dir = radToDeg(Math.atan(Math.abs(cy/cx)));
+		dir = ExtendedMath.radToDeg(Math.atan(Math.abs(cy/cx)));
 		if (cx > 0 && cy > 0)
 		{
 			// do nothing
