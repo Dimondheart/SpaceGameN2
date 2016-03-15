@@ -10,19 +10,27 @@ public class SpaceBody extends Body
 	private GalacticRegionScene scene;
 	private double x;
 	private double y;
+	private double radius;
 	private double rotation;
 	private double rv;
+	private MoveVector vector;
+	private double maxSpeed;
 	private double vm;
 	private double vd;
 	private double am;
 	private double ad;
+	private MoveVector accel;
 	protected long lastUpdate;
 	
 	public SpaceBody(GalacticRegionScene scene)
 	{
 		setPos(0, 0);
-		setVector(0, 0);
-		clearAccel();
+		setRadius(6);
+		setMaxSpeed(10);
+		vector = new MoveVector();
+		vector.zeroVector();
+		accel = new MoveVector();
+		accel.zeroVector();
 		setScene(scene);
 	}
 	
@@ -35,6 +43,11 @@ public class SpaceBody extends Body
 			return true;
 		}
 		return false;
+	}
+	
+	public GalacticRegionScene getScene()
+	{
+		return scene;
 	}
 	
 	public void setPos(double x, double y)
@@ -50,8 +63,7 @@ public class SpaceBody extends Body
 	
 	public int getScreenX()
 	{
-		System.out.println(scene.getOffsetX());
-		return (int) (getX() + scene.getOffsetX());
+		return (int) (getX()*getScene().getScale() + getScene().getOffsetX());
 	}
 	
 	public void setX(double x)
@@ -66,12 +78,31 @@ public class SpaceBody extends Body
 	
 	public int getScreenY()
 	{
-		return (int) ((int) GraphicsManager.getMainLayerSet().getLayerSetHeight() - (getY() + scene.getOffsetY()));
+		return (int)
+				(
+					GraphicsManager.getMainLayerSet().getLayerSetHeight()
+					- (getY()*getScene().getScale() + scene.getOffsetY())
+				);
 	}
 	
 	public void setY(double y)
 	{
 		this.y = y;
+	}
+	
+	public double getRadius()
+	{
+		return radius;
+	}
+	
+	public double getScreenRadius()
+	{
+		return getRadius()*getScene().getScale();
+	}
+	
+	public void setRadius(double radius)
+	{
+		this.radius = radius;
 	}
 	
 	public double getRotation()
@@ -98,60 +129,122 @@ public class SpaceBody extends Body
 		this.rv = rv;
 	}
 	
-	public void setVector(double vm, double direction)
+	public MoveVector getVector()
 	{
-		this.vm = vm;
-		this.vd = direction;
+		return vector;
 	}
 	
 	public void applyVector(double vm)
 	{
-		setVector(vm, rotation);
+		getVector().setVector(vm, rotation);
 	}
 	
-	public double getVectorX()
+	public double getMaxSpeed()
 	{
-		return 0;
+		return maxSpeed;
 	}
 	
-	public double getVectorY()
+	public void setMaxSpeed(double speed)
 	{
-		return 0;
+		this.maxSpeed = speed;
 	}
 	
-	public void setAccel(double am, double direction)
+	public MoveVector getAccel()
 	{
-		this.am = am;
-		ad = direction;
+		return accel;
 	}
 	
 	public void applyAccel(double am)
 	{
-		setAccel(am, rotation);
-	}
-	
-	public void clearAccel()
-	{
-		am = 0;
-	}
-	
-	public double getAccelX()
-	{
-		return 0;
-	}
-	
-	public double getAccelY()
-	{
-		return 0;
+		getAccel().setVector(am, rotation);
 	}
 	
 	public void update()
 	{
 		long currTime = scene.getTimer().getTimeNano();
 		double elapsed = (currTime - lastUpdate)/1000000.0/1000.0;
-		setX(getX() + getVectorX()*elapsed);
-		setY(getY() + getVectorY()*elapsed);
+		vector.applyAccel(accel, elapsed);
+		if (vector.getMagnitude() > maxSpeed)
+		{
+			vector.setMagnitude(maxSpeed);
+		}
+		setX(getX() + vector.getCompX()*elapsed);
+		setY(getY() + vector.getCompY()*elapsed);
 		setRotation(getRotation() + getRotationVector()*elapsed);
 		lastUpdate = currTime;
+	}
+	
+	public double distanceTo(SpaceBody other, boolean toClosestEdge)
+	{
+		double distance = 0;
+		double dx = other.getX()-getX();
+		double dy = other.getY()-getY();
+		distance = Math.pow(Math.pow(dx, 2.0) + Math.pow(dy, 2.0), 0.5);
+		if (toClosestEdge)
+		{
+			distance -= (getRadius() + other.getRadius());
+		}
+		return distance;
+	}
+	
+	public double directionTo(SpaceBody other)
+	{
+		double direction = 0;
+		double dx = other.getX()-getX();
+		double dy = other.getY()-getY();
+		return calcDirection(dx, dy);
+	}
+	
+	protected static double radToDeg(double rad)
+	{
+		return rad * 180.0 / Math.PI;
+	}
+	
+	protected double calcDirection(double cx, double cy)
+	{
+		// Handle the special angles that could result in invalid calcs
+		if (cx == 0)
+		{
+			if (cy > 0)
+			{
+				return 90;
+			}
+			else if (cy < 0)
+			{
+				return 270;
+			}
+			return 0;
+		}
+		else if (cy == 0)
+		{
+			if (cx >= 0)
+			{
+				return 0;
+			}
+			else if (cx < 0)
+			{
+				return 180;
+			}
+			return 0;
+		}
+		double dir = 0;
+		dir = radToDeg(Math.atan(Math.abs(cy/cx)));
+		if (cx > 0 && cy > 0)
+		{
+			// do nothing
+		}
+		else if (cx < 0 && cy > 0)
+		{
+			dir = 180 - dir;
+		}
+		else if (cx < 0 && cy < 0)
+		{
+			dir = 180 + dir;
+		}
+		else if (cx > 0 && cy < 0)
+		{
+			dir = 360 - dir;
+		}
+		return dir;
 	}
 }

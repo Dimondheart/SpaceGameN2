@@ -2,6 +2,7 @@ package xyz.digitalcookies.ogetest;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import xyz.digitalcookies.objective.Settings;
 import xyz.digitalcookies.objective.entity.SceneUpdateEvent;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 
@@ -16,6 +17,7 @@ public class MainPlayMode extends xyz.digitalcookies.objective.gamestate.GameSta
 	@Override
 	protected void setupState(ConcurrentHashMap<String, Object> setupArgs)
 	{
+		Settings.setSetting(Settings.INVERT_SCROLL_WHEEL, true);
 		galaxy = new Galaxy();
 		region = new GalacticRegionScene();
 		player = new Player(region);
