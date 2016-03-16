@@ -41,7 +41,6 @@ public class Laser extends Weapon
 	@Override
 	public boolean fire()
 	{
-		System.out.println("PewPew!");
 		return false;
 	}
 

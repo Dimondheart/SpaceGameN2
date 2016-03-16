@@ -7,7 +7,6 @@ import xyz.digitalcookies.objective.entity.EntityUpdateEvent;
 import xyz.digitalcookies.objective.entity.SceneUpdateEvent;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
-import xyz.digitalcookies.objective.utility.StopWatch;
 
 @SuppressWarnings("javadoc")
 public class AstroScene extends xyz.digitalcookies.objective.entity.Scene implements xyz.digitalcookies.objective.graphics.Renderer

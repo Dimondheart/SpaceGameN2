@@ -42,7 +42,7 @@ public class SamplePlay2 extends GameState
 		layerSetTest = new LayerSetTest();
 		entityLayers = new LayerSet(1);
 		mainMenuBtn = new Button(150,10,100,20,"To Main Menu");
-		mainMenuBtn.setFont(TextDrawer.defFont.deriveFont(16f));
+		mainMenuBtn.setFont(TextDrawer.getDefaultFont().deriveFont(16f));
 		mainMenuBtn.setBGColor(Color.cyan);
 		mainMenuBtn.setFontColor(Color.black);
 		btd = new BasicTextDrawer();
