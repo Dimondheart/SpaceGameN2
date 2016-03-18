@@ -1,15 +1,20 @@
 package xyz.digitalcookies.ogetest;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Properties;
 
 import xyz.digitalcookies.objective.GameSession;
+import xyz.digitalcookies.objective.resources.ResourcePackManager;
 
 @SuppressWarnings("javadoc")
 public class Main
 {
 	public static void main(String[] args)
 	{
+		URI resPackDir = URI.create("<TODO make this part findable>/ObjectiveTesting/resources");
+		ResourcePackManager.indexResourcePacks(resPackDir);
+		ResourcePackManager.setBufferResources(true);
 		GameSession session = new GameSession(
 				MainMenu.class,
 				getOJGEProperties("ojge.properties")
