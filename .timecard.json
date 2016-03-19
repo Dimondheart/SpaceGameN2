@@ -1,7 +1,26 @@
 {
   "reportFormat": "default",
-  "hourlyRate": 0,
-  "card": [],
+  "hourlyRate": 5,
+  "card": [{
+      "date": "Sun Jan 18 2016",
+      "times": [
+        {
+          "start": "11:43:00",
+          "end": "13:43:03",
+          "by": "Dimondheart"
+        }
+      ]
+    }, {
+      "date": "Sun Jan 17 2016",
+      "disabled": "Sun Feb 14 2016",
+      "times": [
+        {
+          "start": "11:43:00",
+          "end": "13:43:03",
+          "by": "1egoman"
+        }
+      ]
+    },],
   "name": "ObjectiveTesting",
   "tagline": "Game engine sample/test game."
 }
