@@ -1,7 +1,7 @@
 package xyz.digitalcookies.ogetest;
 
-import xyz.digitalcookies.objective.entity.Scene;
-import xyz.digitalcookies.objective.entity.entitymodule.Body;
+import xyz.digitalcookies.objective.scene.Scene;
+import xyz.digitalcookies.objective.scene.Body;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.utility.ExtendedMath;
 

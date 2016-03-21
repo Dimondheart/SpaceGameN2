@@ -2,8 +2,8 @@ package xyz.digitalcookies.ogetest;
 
 import java.awt.Color;
 
-import xyz.digitalcookies.objective.entity.Entity;
-import xyz.digitalcookies.objective.entity.EntityUpdateEvent;
+import xyz.digitalcookies.objective.scene.Entity;
+import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
 import xyz.digitalcookies.objective.graphics.TextDrawer;
 
@@ -21,12 +21,12 @@ public class Ship extends SpaceObject
 		baseData = data;
 		switch (data.getShipID())
 		{
-			case ShipData.DESTROYER_ID:
+			case ShipData.TEST_DESTROYER_ID:
 				body.setRadius(32);
 				body.setMaxSpeed(24);
 				color = Color.lightGray;
 				break;
-			case ShipData.FIGHTER_ID:
+			case ShipData.TEST_FIGHTER_ID:
 			default:
 				body.setRadius(16);
 				body.setMaxSpeed(48);
@@ -52,9 +52,6 @@ public class Ship extends SpaceObject
 				Ship ship = (Ship) entity;
 				if (ship.getShipData().getShipID().equals("Fighter"))
 				{
-					double dx = ship.getBody().getX()-getBody().getX();
-					double dy = ship.getBody().getY()-getBody().getY();
-					
 					getBody().getAccel().setVector(getBody().distanceTo(ship.getBody(), true), getBody().directionTo(ship.getBody()));
 				}
 			}
@@ -76,21 +73,17 @@ public class Ship extends SpaceObject
 				x,
 				y-23
 				);
-//		System.out.println(
-//		"vm:"
-//		+ String.format("%.4f", body.getVector().getMagnitude())
-//		+ ", vd:"
-//		+ String.format("%.4f", body.getVector().getDirection())
-//		);
-		//System.out.println("Rotation:" + String.format("%.1f", body.getRotation()));
+		// Render acceleration vector
 		event.getContext().setColor(Color.red);
 		int ax = (int) (x + getBody().getAccel().getCompX());
 		int ay = (int) (y - getBody().getAccel().getCompY());
 		event.getContext().drawLine(x, y, ax, ay);
+		// Render velocity vector
 		event.getContext().setColor(Color.green);
 		int vx = (int) (x + getBody().getVelocity().getCompX());
 		int vy = (int) (y - getBody().getVelocity().getCompY());
 		event.getContext().drawLine(x, y, vx, vy);
+		// Render direction facing
 		event.getContext().setColor(Color.white);
 		int rx = (int) (x + Math.cos(getBody().getRotation()*Math.PI/180.0)*10);
 		int ry = (int) (y - Math.sin(getBody().getRotation()*Math.PI/180.0)*10);

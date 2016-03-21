@@ -9,9 +9,7 @@ public class Main
 	public static void main(String[] args)
 	{
 		SetupOperations.setCodeSource(Main.class.getProtectionDomain().getCodeSource().getLocation());
-		GameSession session = new GameSession(
-				MainPlayMode.class
-				);
+		GameSession session = new GameSession(MainPlayMode.class);
 		session.start();
 	}
 }

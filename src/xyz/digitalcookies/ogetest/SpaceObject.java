@@ -1,7 +1,7 @@
 package xyz.digitalcookies.ogetest;
 
-import xyz.digitalcookies.objective.entity.Entity;
-import xyz.digitalcookies.objective.entity.EntityUpdateEvent;
+import xyz.digitalcookies.objective.scene.Entity;
+import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 
 public abstract class SpaceObject implements Entity
 {

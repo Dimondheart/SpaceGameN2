@@ -1,6 +1,6 @@
 package xyz.digitalcookies.ogetest;
 
-import xyz.digitalcookies.objective.entity.Entity;
+import xyz.digitalcookies.objective.scene.Entity;
 
 public abstract class Weapon implements Entity
 {

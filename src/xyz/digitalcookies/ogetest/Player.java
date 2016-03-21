@@ -1,8 +1,7 @@
 package xyz.digitalcookies.ogetest;
 
-import xyz.digitalcookies.objective.entity.Entity;
-import xyz.digitalcookies.objective.entity.EntityUpdateEvent;
-import xyz.digitalcookies.objective.graphics.GraphicsManager;
+import xyz.digitalcookies.objective.scene.Entity;
+import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 import xyz.digitalcookies.objective.input.InputManager;
 
 import static java.awt.event.KeyEvent.*;
@@ -16,7 +15,7 @@ public class Player implements Entity
 	
 	public Player(GalacticRegionScene scene)
 	{
-		mainUnit = new Ship(scene, new ShipData());
+		mainUnit = new Ship(scene, new ShipData(ShipData.TEST_FIGHTER_ID));
 		linLatControl = true;
 		mainUnit.testU = true;
 	}

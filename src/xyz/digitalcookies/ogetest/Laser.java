@@ -2,7 +2,7 @@ package xyz.digitalcookies.ogetest;
 
 import java.awt.Color;
 
-import xyz.digitalcookies.objective.entity.EntityUpdateEvent;
+import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
 
 public class Laser extends Weapon

@@ -1,25 +1,25 @@
 package xyz.digitalcookies.ogetest;
 
-import xyz.digitalcookies.objective.entity.EntityContainer;
-import xyz.digitalcookies.objective.entity.EntityUpdateEvent;
-import xyz.digitalcookies.objective.entity.SceneUpdateEvent;
+import xyz.digitalcookies.objective.scene.EntityContainer;
+import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
+import xyz.digitalcookies.objective.scene.SceneUpdateEvent;
+import xyz.digitalcookies.objective.scene.Scene;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
 import xyz.digitalcookies.objective.graphics.Renderer;
 
-/** A single region in the galactic map. */
-public class GalacticRegionScene extends xyz.digitalcookies.objective.entity.Scene implements Renderer
+/** A scene for a region in the galaxy map. */
+public class GalacticRegionScene extends Scene implements Renderer
 {
-	private GalacticRegionData currSceneData;
-	private GalacticRegionData newSceneData;
+	private GalacticRegionData regionData;
 	private EntityContainer entities;
 	private Player player;
 	
-	public GalacticRegionScene()
+	public GalacticRegionScene(GalacticRegionData data)
 	{
+		regionData = data;
 		entities = new EntityContainer();
-		ShipData enemyDestroyers =  new ShipData();
-		enemyDestroyers.setShipID("Destroyer");
+		ShipData enemyDestroyers =  new ShipData(ShipData.TEST_DESTROYER_ID);
 		entities.addEntity(new Ship(this, enemyDestroyers));
 		entities.addEntity(new Asteroid(this));
 	}
@@ -27,40 +27,30 @@ public class GalacticRegionScene extends xyz.digitalcookies.objective.entity.Sce
 	@Override
 	public void updateScene(SceneUpdateEvent event)
 	{
-		if (isActive())
+		if (!isPaused())
 		{
-			if (newSceneData != null)
-			{
-				currSceneData = newSceneData;
-				newSceneData = null;
-			}
+			player.update(new EntityUpdateEvent(entities));
+			entities.updateEntities(new EntityUpdateEvent(entities));
 			int ox = -(int) (player.getUnit().getBody().getScreenX()-getOffsetX()-GraphicsManager.getMainLayerSet().getLayerSetWidth()/2);
 			int oy = -(int) (GraphicsManager.getMainLayerSet().getLayerSetHeight()/2-getOffsetY()-player.getUnit().getBody().getScreenY());
 			setOffset(ox, oy);
-			player.update(new EntityUpdateEvent(entities));
-			entities.updateEntities(new EntityUpdateEvent(entities));
 		}
 	}
 	
 	@Override
 	public void render(RenderEvent event)
 	{
-		if (isActive())
+		if (isRendering())
 		{
 			entities.render(event);
 		}
 	}
 	
-	/** Set the player character and add their units to this scene. */
+	/** Set the player character. */
 	public void setPlayer(Player player)
 	{
 		this.player = player;
 		entities.addEntity(player.getUnit());
-	}
-	
-	public void changeRegionData(GalacticRegionData data)
-	{
-		newSceneData = data;
 	}
 	
 	public void removePlayer()
