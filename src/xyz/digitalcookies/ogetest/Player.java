@@ -2,7 +2,8 @@ package xyz.digitalcookies.ogetest;
 
 import xyz.digitalcookies.objective.scene.Entity;
 import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
-import xyz.digitalcookies.objective.input.InputManager;
+import xyz.digitalcookies.objective.input.Keyboard;
+import xyz.digitalcookies.objective.input.Mouse;
 
 import static java.awt.event.KeyEvent.*;
 //import static java.awt.event.MouseEvent.*;
@@ -23,16 +24,16 @@ public class Player implements Entity
 	@Override
 	public void update(EntityUpdateEvent event)
 	{
-		if (InputManager.getMS().getWheelChange() != 0)
+		if (Mouse.getWheelChange() != 0)
 		{
-			mainUnit.getBody().getScene().zoom(InputManager.getMS().getWheelChange());
+			mainUnit.getBody().getScene().zoom(Mouse.getWheelChange());
 		}
-		if (InputManager.getKB().isDown(VK_1))
+		if (Keyboard.isDown(VK_1))
 		{
 			mainUnit.getBody().setRotationVector(0);
 			linLatControl = true;
 		}
-		else if (InputManager.getKB().isDown(VK_2))
+		else if (Keyboard.isDown(VK_2))
 		{
 			linLatControl = false;
 		}
@@ -65,19 +66,19 @@ public class Player implements Entity
 			mainUnit.getBody().setRotationVector(rotVect);
 			double linear = 0;
 			double lateral = 0;
-			if (InputManager.getKB().isDown(VK_A))
+			if (Keyboard.isDown(VK_A))
 			{
 				lateral -= 1;
 			}
-			if (InputManager.getKB().isDown(VK_D))
+			if (Keyboard.isDown(VK_D))
 			{
 				lateral += 1;
 			}
-			if (InputManager.getKB().isDown(VK_W))
+			if (Keyboard.isDown(VK_W))
 			{
 				linear += 1;
 			}
-			if (InputManager.getKB().isDown(VK_S))
+			if (Keyboard.isDown(VK_S))
 			{
 				linear -= 1;
 			}
@@ -141,19 +142,19 @@ public class Player implements Entity
 		{
 			int rotation = 0;
 			int vm = 0;
-			if (InputManager.getKB().isDown(VK_A))
+			if (Keyboard.isDown(VK_A))
 			{
 				rotation += 1;
 			}
-			if (InputManager.getKB().isDown(VK_D))
+			if (Keyboard.isDown(VK_D))
 			{
 				rotation -= 1;
 			}
-			if (InputManager.getKB().isDown(VK_W))
+			if (Keyboard.isDown(VK_W))
 			{
 				vm += 1;
 			}
-			if (InputManager.getKB().isDown(VK_S))
+			if (Keyboard.isDown(VK_S))
 			{
 				vm -= 1;
 			}
@@ -175,8 +176,8 @@ public class Player implements Entity
 	
 	protected double calcAngleMousePlayer()
 	{
-		double cx = InputManager.getMS().getUnpolledX()-mainUnit.getBody().getScreenX();
-		double cy = -(InputManager.getMS().getUnpolledY()-mainUnit.getBody().getScreenY());
+		double cx = Mouse.getUnpolledX()-mainUnit.getBody().getScreenX();
+		double cy = -(Mouse.getUnpolledY()-mainUnit.getBody().getScreenY());
 		// Handle the special angles that could result in invalid calcs
 		if (cx == 0)
 		{

@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import xyz.digitalcookies.objective.Settings;
 import xyz.digitalcookies.objective.scene.SceneUpdateEvent;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
-import xyz.digitalcookies.objective.input.InputManager;
+import xyz.digitalcookies.objective.input.Keyboard;
 import xyz.digitalcookies.objective.sound.SoundManager;
 
 import static java.awt.event.KeyEvent.*;
@@ -37,55 +37,55 @@ public class MainPlayMode extends xyz.digitalcookies.objective.gamestate.GameSta
 	@Override
 	protected void cycleState()
 	{
-		if (InputManager.getKB().justReleased(VK_ESCAPE))
+		if (Keyboard.justReleased(VK_ESCAPE))
 		{
 			pauseMenuActive = !pauseMenuActive;
 		}
-		if (InputManager.getKB().justReleased(VK_CONTROL) && !pauseMenuActive)
+		if (Keyboard.justReleased(VK_CONTROL) && !pauseMenuActive)
 		{
 			scenePaused = !scenePaused;
 		}
-		if (InputManager.getKB().justReleased(VK_1))
+		if (Keyboard.justReleased(VK_1))
 		{
 			Settings.setSetting(Settings.MASTER_VOLUME, 10);
 		}
-		else if (InputManager.getKB().justReleased(VK_2))
+		else if (Keyboard.justReleased(VK_2))
 		{
 			Settings.setSetting(Settings.MASTER_VOLUME, 20);
 		}
-		else if (InputManager.getKB().justReleased(VK_3))
+		else if (Keyboard.justReleased(VK_3))
 		{
 			Settings.setSetting(Settings.MASTER_VOLUME, 30);
 		}
-		else if (InputManager.getKB().justReleased(VK_4))
+		else if (Keyboard.justReleased(VK_4))
 		{
 			Settings.setSetting(Settings.MASTER_VOLUME, 40);
 		}
-		else if (InputManager.getKB().justReleased(VK_5))
+		else if (Keyboard.justReleased(VK_5))
 		{
 			Settings.setSetting(Settings.MASTER_VOLUME, 50);
 		}
-		else if (InputManager.getKB().justReleased(VK_6))
+		else if (Keyboard.justReleased(VK_6))
 		{
 			Settings.setSetting(Settings.MASTER_VOLUME, 60);
 		}
-		else if (InputManager.getKB().justReleased(VK_7))
+		else if (Keyboard.justReleased(VK_7))
 		{
 			Settings.setSetting(Settings.MASTER_VOLUME, 70);
 		}
-		else if (InputManager.getKB().justReleased(VK_8))
+		else if (Keyboard.justReleased(VK_8))
 		{
 			Settings.setSetting(Settings.MASTER_VOLUME, 80);
 		}
-		else if (InputManager.getKB().justReleased(VK_9))
+		else if (Keyboard.justReleased(VK_9))
 		{
 			Settings.setSetting(Settings.MASTER_VOLUME, 90);
 		}
-		else if (InputManager.getKB().justReleased(VK_0))
+		else if (Keyboard.justReleased(VK_0))
 		{
 			Settings.setSetting(Settings.MASTER_VOLUME, 0);
 		}
-		else if (InputManager.getKB().justReleased(VK_TAB))
+		else if (Keyboard.justReleased(VK_TAB))
 		{
 			Settings.setSetting(Settings.MASTER_VOLUME, 100);
 		}
