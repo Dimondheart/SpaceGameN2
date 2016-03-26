@@ -1,10 +1,20 @@
 package xyz.digitalcookies.ogetest;
 
-/** Represents a collection of all the regions in a single playthrough. */
-public class Galaxy
+import java.io.Serializable;
+
+/** Provides communication/connection between all possible galaxy region
+ * scenes and manages related components.
+ * @author Bryan Charles Bettis
+ */
+public class Galaxy implements Serializable
 {
-	public GalacticRegionData getInitialRegion()
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** Basic constructor. */
+	public Galaxy()
 	{
-		return new GalacticRegionData();
 	}
 }

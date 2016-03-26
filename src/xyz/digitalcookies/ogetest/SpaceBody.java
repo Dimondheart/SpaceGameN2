@@ -5,10 +5,15 @@ import xyz.digitalcookies.objective.scene.Body;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.utility.ExtendedMath;
 
-/** Basic body for all bodies in space. */
+/** Physical (interactable) portion of an entity within <b>1</b> scene.
+ * This has been separated from the SpaceObject type because a space object
+ * can have up to 2 bodies at once (one for each scene it is in.)
+ * @author Bryan Charles Bettis
+ *
+ */
 public class SpaceBody extends Body
 {
-	private GalacticRegionScene scene;
+	private GalaxyRegionScene scene;
 	private double x;
 	private double y;
 	private double radius;
@@ -23,7 +28,7 @@ public class SpaceBody extends Body
 	private MoveVector accel;
 	protected long lastUpdate;
 	
-	public SpaceBody(GalacticRegionScene scene)
+	public SpaceBody(GalaxyRegionScene scene)
 	{
 		setPos(0, 0);
 		setRadius(6);
@@ -33,20 +38,21 @@ public class SpaceBody extends Body
 		accel = new MoveVector();
 		accel.zeroVector();
 		setScene(scene);
+		lastUpdate = getScene().getTimer().getTimeNano();
 	}
 	
 	@Override
 	public boolean setScene(Scene scene)
 	{
-		if (scene instanceof GalacticRegionScene)
+		if (scene instanceof GalaxyRegionScene)
 		{
-			this.scene = (GalacticRegionScene) scene;
+			this.scene = (GalaxyRegionScene) scene;
 			return true;
 		}
 		return false;
 	}
 	
-	public GalacticRegionScene getScene()
+	public GalaxyRegionScene getScene()
 	{
 		return scene;
 	}
@@ -81,7 +87,7 @@ public class SpaceBody extends Body
 	{
 		return (int)
 				(
-					GraphicsManager.getMainLayerSet().getLayerSetHeight()
+					GraphicsManager.getMainLayerSet().getHeight()
 					- (getY()*getScene().getScale() + scene.getOffsetY())
 				);
 	}

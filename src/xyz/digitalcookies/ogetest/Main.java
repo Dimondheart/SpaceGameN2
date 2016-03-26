@@ -11,7 +11,7 @@ public class Main
 		EngineSetupData.setCodeSource(
 				Main.class.getProtectionDomain().getCodeSource().getLocation()
 				);
-		GameSession.setup(MainPlayMode.class);
+		GameSession.setup(MainMenu.class);
 		GameSession.start();
 	}
 }
