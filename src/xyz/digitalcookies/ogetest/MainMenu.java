@@ -46,6 +46,7 @@ public class MainMenu extends GameState
 		// Add to primary containers
 		GraphicsManager.getMainLayerSet().addRenderer(topMenu, 7);
 		GraphicsManager.getMainLayerSet().addRenderer(settingsMenu, 7);
+		GraphicsManager.getMainLayerSet().addRenderer(new TestRenderer(), 7);
 	}
 
 	@Override
