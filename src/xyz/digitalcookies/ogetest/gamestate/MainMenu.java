@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.ogetest.gamestate;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -8,6 +8,7 @@ import xyz.digitalcookies.objective.graphics.RendererPanel.RelativePosition;
 import xyz.digitalcookies.objective.input.gui.Button;
 import xyz.digitalcookies.objective.input.gui.GUIPanel;
 import xyz.digitalcookies.objective.sound.SoundManager;
+import xyz.digitalcookies.ogetest.TitleRenderer;
 
 //import static java.awt.event.KeyEvent.*;
 //import static java.awt.event.MouseEvent.*;
@@ -39,6 +40,7 @@ public class MainMenu extends GameState
 		topMenu.addRenderer(new Button(0,0,100,25,"Play"), "playOriginal");
 		topMenu.addRenderer(new Button(0,0,100,25,"Settings"), "toSettings", RelativePosition.BELOW, "playOriginal");
 		topMenu.addRenderer(new Button(0,0,100,25,"Quit"), "quitButton", RelativePosition.BELOW, "toSettings");
+		topMenu.addRenderer(new TitleRenderer(), "title", RelativePosition.ABOVE, "playOriginal");
 		settingsMenu.addRenderer(new Button(0,0,100,25,"Back"), "back");
 		// More setup stuff
 		topMenu.centerOverWindow(true);
@@ -46,7 +48,7 @@ public class MainMenu extends GameState
 		// Add to primary containers
 		GraphicsManager.getMainLayerSet().addRenderer(topMenu, 7);
 		GraphicsManager.getMainLayerSet().addRenderer(settingsMenu, 7);
-		GraphicsManager.getMainLayerSet().addRenderer(new TestRenderer(), 7);
+//		GraphicsManager.getMainLayerSet().addRenderer(new TestRenderer(), 7);
 	}
 
 	@Override

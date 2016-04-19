@@ -2,6 +2,7 @@ package xyz.digitalcookies.ogetest;
 
 import xyz.digitalcookies.objective.EngineSetupData;
 import xyz.digitalcookies.objective.GameSession;
+import xyz.digitalcookies.ogetest.gamestate.MainMenu;
 
 @SuppressWarnings("javadoc")
 public class Main

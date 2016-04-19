@@ -12,7 +12,7 @@ import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 public abstract class SpaceObject implements Entity
 {
 	@Override
-	public boolean utilizesBody()
+	public final boolean utilizesBody()
 	{
 		return true;
 	}

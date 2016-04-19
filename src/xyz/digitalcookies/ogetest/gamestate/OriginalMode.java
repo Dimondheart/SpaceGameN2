@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.ogetest.gamestate;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -8,6 +8,8 @@ import xyz.digitalcookies.objective.input.Keyboard;
 import xyz.digitalcookies.objective.input.gui.Button;
 import xyz.digitalcookies.objective.input.gui.GUIPanel;
 import xyz.digitalcookies.objective.sound.SoundManager;
+import xyz.digitalcookies.ogetest.Galaxy;
+import xyz.digitalcookies.ogetest.GalaxyRegionScene;
 
 import static java.awt.event.KeyEvent.*;
 //import static java.awt.event.MouseEvent.*;
@@ -21,6 +23,7 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 	private GUIPanel pauseMenu;
 	/** The settings menu for changing gameplay and general settings. */
 	private GUIPanel settingsMenu;
+	private GalaxyRegionScene testScene;
 	
 	@Override
 	protected void setupState(ConcurrentHashMap<String, Object> setupArgs)
@@ -30,6 +33,7 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 		// Make instances
 		pauseMenu = new GUIPanel(0,0);
 		settingsMenu = new GUIPanel(0,0);
+		testScene = new GalaxyRegionScene();
 		// Add to secondary containers
 		pauseMenu.addRenderer(new Button(0,0,100,25,"Quit to Main Menu"), "mainMenu");
 		pauseMenu.addRenderer(new Button(0,0,100,25,"Settings"), "settings", RelativePosition.ABOVE, "mainMenu");
@@ -38,21 +42,22 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 		// Other setup stuff
 		pauseMenu.centerOverWindow(true);
 		pauseMenu.setVisible(false);
+		pauseMenu.setEnabled(false);
 		settingsMenu.centerOverWindow(true);
 		settingsMenu.setVisible(false);
+		settingsMenu.setEnabled(false);
 		// Add to primary containers
 		GraphicsManager.getMainLayerSet().addRenderer(pauseMenu, 7);
 		GraphicsManager.getMainLayerSet().addRenderer(settingsMenu, 7);
+		GraphicsManager.getMainLayerSet().addRenderer(testScene, 4);
+		// Finalize states before starting
+		testScene.setPaused(false);
+		testScene.setRendering(true);
 	}
 
 	@Override
 	protected void cycleState()
 	{
-		if (Keyboard.justReleased(VK_ESCAPE))
-		{
-			pauseMenu.setVisible(!pauseMenu.isVisible());
-			pauseMenu.setEnabled(pauseMenu.isVisible());
-		}
 		if (pauseMenu.isEnabled())
 		{
 			if (pauseMenu.getButton("mainMenu").justReleased())
@@ -69,15 +74,32 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 			{
 				changeState(null);
 			}
+			else if (Keyboard.justReleased(VK_ESCAPE))
+			{
+				pauseMenu.setVisible(!pauseMenu.isVisible());
+				pauseMenu.setEnabled(pauseMenu.isVisible());
+			}
 		}
 		if (settingsMenu.isEnabled())
 		{
-			if (settingsMenu.getButton("back").justReleased())
+			if (
+				settingsMenu.getButton("back").justReleased() ||
+				Keyboard.justReleased(VK_ESCAPE)
+				)
 			{
 				pauseMenu.setEnabled(true);
 				settingsMenu.setVisible(false);
 			}
 		}
+		if (pauseMenu.isEnabled() || settingsMenu.isEnabled())
+		{
+			testScene.setPaused(true);
+		}
+		else
+		{
+			testScene.setPaused(false);
+		}
+		testScene.updateScene(null);
 	}
 	
 	@Override

@@ -15,7 +15,7 @@ public class TestRenderer extends BoundedRenderer
 {
 	public TestRenderer()
 	{
-		setEnforceBounds(true);
+//		setEnforceBounds(true);
 		setPos(20,20);
 		setDims(500,500);
 	}
