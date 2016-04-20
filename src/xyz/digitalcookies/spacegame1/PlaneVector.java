@@ -13,7 +13,9 @@ public class PlaneVector implements Cloneable
 	/** The unit vector <0,1>. TODO make immutable. */
 	public static final PlaneVector J_VECTOR =
 			new PlaneVector(0.0, 1.0, true);
-	
+	public static final boolean AS_XY_COMP = true;
+	public static final boolean AS_DEG_MAG = false
+			;
 	private double magnitude;
 	private double direction;
 	
@@ -70,6 +72,11 @@ public class PlaneVector implements Cloneable
 				getX() + cx,
 				getY() + cy
 				);
+	}
+	
+	public void addVector(PlaneVector other)
+	{
+		addVector(other.getX(), other.getY());
 	}
 	
 	public void setVector(double magnitude, double direction)

@@ -7,8 +7,8 @@ import xyz.digitalcookies.objective.graphics.RendererPanel.RelativePosition;
 import xyz.digitalcookies.objective.input.Keyboard;
 import xyz.digitalcookies.objective.input.gui.Button;
 import xyz.digitalcookies.objective.input.gui.GUIPanel;
+import xyz.digitalcookies.objective.scene.SceneUpdateEvent;
 import xyz.digitalcookies.objective.sound.SoundManager;
-import xyz.digitalcookies.spacegame1.Galaxy;
 import xyz.digitalcookies.spacegame1.GalaxyRegionScene;
 
 import static java.awt.event.KeyEvent.*;
@@ -23,6 +23,7 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 	private GUIPanel pauseMenu;
 	/** The settings menu for changing gameplay and general settings. */
 	private GUIPanel settingsMenu;
+	/** A scene for testing/development purposes. */
 	private GalaxyRegionScene testScene;
 	
 	@Override
@@ -58,48 +59,68 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 	@Override
 	protected void cycleState()
 	{
+		// Handle pause menu if open
 		if (pauseMenu.isEnabled())
 		{
+			// Return to main menu
 			if (pauseMenu.getButton("mainMenu").justReleased())
 			{
 				changeState(MainMenu.class);
 				return;
 			}
+			// Go to settings menu
 			else if (pauseMenu.getButton("settings").justReleased())
 			{
 				pauseMenu.setVisible(false);
+				pauseMenu.setEnabled(false);
 				settingsMenu.setEnabled(true);
+				settingsMenu.setVisible(true);
 			}
+			// Quit game
 			else if (pauseMenu.getButton("quit").justReleased())
 			{
 				changeState(null);
 			}
+			// Disable pause menu
 			else if (Keyboard.justReleased(VK_ESCAPE))
 			{
-				pauseMenu.setVisible(!pauseMenu.isVisible());
-				pauseMenu.setEnabled(pauseMenu.isVisible());
+				pauseMenu.setVisible(false);
+				pauseMenu.setEnabled(false);
 			}
 		}
-		if (settingsMenu.isEnabled())
+		// Handle settings menu if open
+		else if (settingsMenu.isEnabled())
 		{
+			// Go back to pause menu
 			if (
 				settingsMenu.getButton("back").justReleased() ||
 				Keyboard.justReleased(VK_ESCAPE)
 				)
 			{
 				pauseMenu.setEnabled(true);
+				pauseMenu.setVisible(true);
 				settingsMenu.setVisible(false);
+				settingsMenu.setEnabled(false);
 			}
 		}
+		// Enable pause menu
+		else if (Keyboard.justReleased(VK_ESCAPE))
+		{
+			pauseMenu.setEnabled(true);
+			pauseMenu.setVisible(true);
+		}
+		// If either of the menus are open, pause the test scene
 		if (pauseMenu.isEnabled() || settingsMenu.isEnabled())
 		{
 			testScene.setUpdating(false);
 		}
+		// Resume the test scene
 		else
 		{
 			testScene.setUpdating(true);
 		}
-		testScene.updateScene(null);
+		// Update the test scene
+		testScene.updateScene(new SceneUpdateEvent());
 	}
 	
 	@Override

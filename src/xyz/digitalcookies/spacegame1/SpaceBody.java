@@ -1,11 +1,9 @@
 package xyz.digitalcookies.spacegame1;
 
 import xyz.digitalcookies.objective.scene.Body;
-import xyz.digitalcookies.objective.scene.Entity;
 
-/** Physical (interactable) portion of an entity within <b>1</b> scene.
- * This has been separated from the SpaceObject type because a space object
- * can have up to 2 bodies at once (one for each scene it is in.)
+/** Physical aspects common to all space objects, including mass, direction,
+ * velocity, steering force, and the occupied region.
  * @author Bryan Charles Bettis
  */
 public class SpaceBody extends Body
@@ -17,6 +15,7 @@ public class SpaceBody extends Body
 	private Circle region;
 	private double mass;
 	
+	/** Basic constructor. */
 	public SpaceBody()
 	{
 		region = new Circle(0, 0, 6);
@@ -35,17 +34,31 @@ public class SpaceBody extends Body
 		return region;
 	}
 	
+	/** Get the vector representing the direction this body is
+	 * facing.
+	 * @return the vector representing the direction this body
+	 * 		is facing
+	 */
 	public PlaneVector getDirection()
 	{
 		return direction;
 	}
 	
-	public double getRotationVector()
+	/** Get the angular velocity of this body.
+	 * 
+	 * @return the angular velocity that the direction of this body
+	 * 		will turn at, in degrees per second
+	 */
+	public double getRotation()
 	{
 		return rv;
 	}
 	
-	public void setRotationVector(double rv)
+	/** Set the angular velocity of this body.
+	 * @param rv the angular velocity this body should turn at,
+	 * 		in degrees per second
+	 */
+	public void setRotation(double rv)
 	{
 		this.rv = rv;
 	}
@@ -63,8 +76,8 @@ public class SpaceBody extends Body
 	public void update(double elapsed)
 	{
 		/* Offset the steering force before using it as the acceleration
-		 * vector. This makes the object accelerate quicker towards the
-		 * desired velocity defined by the steering force.
+		 * vector. This makes the velocity change towards the
+		 * desired direction, defined by the steering force, faster.
 		 */
 		PlaneVector accel = new PlaneVector();
 		// Determine the offset vector
@@ -83,34 +96,6 @@ public class SpaceBody extends Body
 				);
 		// Apply the original magnitude of the steering force
 		accel.setMagnitude(getSteering().getMagnitude());
-		/* Update the rotation 'vector' to be turning towards the new 
-		 * acceleration (or the current vector if no acceleration.)
-		 */
-		double rotToAccel = 0.0;
-		if (accel.getMagnitude() != 0)
-		{
-			rotToAccel = 
-					accel.getDirectionDeg()
-					- getDirection().getDirectionDeg();
-		}
-		else
-		{
-			rotToAccel = 
-					getVelocity().getDirectionDeg()
-					- getDirection().getDirectionDeg();
-		}
-		if ((0 < rotToAccel && rotToAccel < 180) || (rotToAccel < -180))
-		{
-			setRotationVector(45);
-		}
-		else if ((-180 < rotToAccel && rotToAccel < 0) || (rotToAccel >= 180))
-		{
-			setRotationVector(-45);
-		}
-		else
-		{
-			setRotationVector(0);
-		}
 		/* Apply updates to the vectors and body region. */
 		// Apply acceleration
 		velocity.addVector(accel.getX()*elapsed, accel.getY()*elapsed);

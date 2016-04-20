@@ -4,6 +4,6 @@ package xyz.digitalcookies.spacegame1;
  * object between regions within a galaxy.
  * @author Bryan Charles Bettis
  */
-public class WarpCore extends SentientObjectModule
+public class TeleportCore extends SentientObjectModule
 {
 }

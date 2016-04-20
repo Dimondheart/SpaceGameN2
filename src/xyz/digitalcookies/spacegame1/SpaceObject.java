@@ -14,7 +14,8 @@ import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 public abstract class SpaceObject implements Entity
 {
 	public static final String EVENT_ELAPSED = "elapsed";
-	public static final String EVENT_OTHER_ENTITIES = "otherEntities";
+	public static final String EVENT_ENTITIES = "entities";
+	public static final String EVENT_PLAYER_CTRL = "playerCtrl";
 	
 	private SpaceBody body;
 	private int lastX;
@@ -39,29 +40,33 @@ public abstract class SpaceObject implements Entity
 	public void render(RenderEvent event)
 	{
 		Circle tbc = getBody().getRegion();
-		event.getContext().setColor(Color.yellow);
-		event.getContext().fillOval(
-				(int) (tbc.getX()-tbc.getRadius()),
-				(int) (-tbc.getY()-tbc.getRadius()),
-				(int) (tbc.getRadius()*2),
-				(int) (tbc.getRadius()*2)
+		event.getContext().translate(
+				(int) getBody().getRegion().getX(),
+				(int) -getBody().getRegion().getY()
 				);
-		event.getContext().setColor(Color.green);
-		event.getContext().drawLine(
-				(int) (tbc.getX()),
-				(int) (-tbc.getY()),
-				(int) (tbc.getX()+getBody().getVelocity().getX()),
-				(int) (-(tbc.getY()+getBody().getVelocity().getY()))
-				);
-		event.getContext().setColor(Color.white);
-		PlaneVector dv = getBody().getDirection().clone();
-		dv.setMagnitude(15);
-		event.getContext().drawLine(
-				(int) (tbc.getX()),
-				(int) (-tbc.getY()),
-				(int) (tbc.getX()+dv.getX()),
-				(int) (-(tbc.getY()+dv.getY()))
-				);
+//		event.getContext().setColor(Color.yellow);
+//		event.getContext().fillOval(
+//				(int) (-tbc.getRadius()),
+//				(int) (-tbc.getRadius()),
+//				(int) (tbc.getRadius()*2),
+//				(int) (tbc.getRadius()*2)
+//				);
+//		event.getContext().setColor(Color.green);
+//		event.getContext().drawLine(
+//				(int) (0),
+//				(int) (0),
+//				(int) (getBody().getVelocity().getX()),
+//				(int) (-(getBody().getVelocity().getY()))
+//				);
+//		event.getContext().setColor(Color.white);
+//		PlaneVector dv = getBody().getDirection().clone();
+//		dv.setMagnitude(15);
+//		event.getContext().drawLine(
+//				(int) (0),
+//				(int) (0),
+//				(int) (dv.getX()),
+//				(int) (-(dv.getY()))
+//				);
 	}
 	
 	public SpaceBody getBody()

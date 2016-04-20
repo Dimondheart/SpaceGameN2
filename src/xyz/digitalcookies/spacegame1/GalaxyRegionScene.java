@@ -6,10 +6,10 @@ import xyz.digitalcookies.objective.scene.EntityContainer;
 import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 import xyz.digitalcookies.objective.scene.Scene;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
+import xyz.digitalcookies.objective.graphics.ImageDrawer;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
 import xyz.digitalcookies.objective.graphics.Renderer;
 import xyz.digitalcookies.objective.input.Mouse;
@@ -21,37 +21,33 @@ import xyz.digitalcookies.objective.input.Mouse;
 public class GalaxyRegionScene extends Scene implements Renderer
 {
 	private EntityContainer objects;
-	private Circle targetPos;
-	private double[][] targets = 
-		{
-			{600, -600},
-			{850, -240},
-			{1000, -800}
-		};
 	private int currTarget = 0;
 	private double lastUpdate = 0;
 	private PlaneVector camera;
+	private double scale = 1.0;
+	private Spaceship playerShip;
 	
 	public GalaxyRegionScene()
 	{
 		camera = new PlaneVector();
 		objects = new EntityContainer();
+		playerShip = new Spaceship();
+		objects.addEntity(playerShip);
 		objects.addEntity(new Spaceship());
 		objects.addEntity(new Spaceship());
-		((Spaceship) objects.getEntities().get(0))
-			.getBody().getRegion().getPosition().setVectorComp(1300, -1300);
-		((Spaceship) objects.getEntities().get(0))
-			.getBody().getRegion().setRadius(12);
-		((Spaceship) objects.getEntities().get(0)).getBody().getVelocity().setVector(60, 45);
+		playerShip
+			.getBody().getRegion().getPosition().setVectorComp(200, -200);
+		playerShip.getBody().getRegion().setRadius(12);
 		((Spaceship) objects.getEntities().get(1))
-		.getBody().getRegion().getPosition().setVectorComp(1300, -1300);
-	((Spaceship) objects.getEntities().get(1))
-		.getBody().getRegion().setRadius(12);
-		((Spaceship) objects.getEntities().get(1)).getBody().getVelocity().setVector(-12, 5);
-//		((Spaceship) objects.getEntities().get(0)).getBody().getDirection().rotateDegrees(45);
-		targetPos = new Circle(targets[currTarget][0], targets[currTarget][1], 24);
+			.getBody().getRegion().getPosition().setVectorComp(200, -120);
+		((Spaceship) objects.getEntities().get(1))
+			.getBody().getRegion().setRadius(12);
+		((Spaceship) objects.getEntities().get(2))
+			.getBody().getRegion().getPosition().setVectorComp(300, -20);
+		((Spaceship) objects.getEntities().get(2))
+			.getBody().getRegion().setRadius(12);
 		lastUpdate = getTimer().getTimeSec();
-		camera = ((Spaceship) objects.getEntities().get(0)).getBody().getRegion().getPosition();
+		camera = playerShip.getBody().getRegion().getPosition();
 	}
 	
 	@Override
@@ -63,15 +59,24 @@ public class GalaxyRegionScene extends Scene implements Renderer
 		{
 			EntityUpdateEvent eue = new EntityUpdateEvent();
 			eue.setProperty(SpaceObject.EVENT_ELAPSED, elapsed);
-			eue.setProperty(SpaceObject.EVENT_OTHER_ENTITIES, objects);
-			((SpaceObject) objects.getEntities().get(0)).getBody().getVelocity().rotateDegrees(64*elapsed);
+			eue.setProperty(SpaceObject.EVENT_ENTITIES, objects.getEntities());
+			eue.setProperty(SpaceObject.EVENT_PLAYER_CTRL, playerShip);
 			objects.updateEntities(eue);
+			// After primary updates, update the physics of each object
 			objects.getEntities().forEach(
 					(Entity e)->
 					{
 						((SpaceObject) e).updatePhysics(elapsed);
 					}
 					);
+			if (Mouse.getWheelChange() > 0)
+			{
+				scale *= 0.95;
+			}
+			else if (Mouse.getWheelChange() < 0)
+			{
+				scale *= 1.05;
+			}
 		}
 		lastUpdate = currTime;
 	}
@@ -81,28 +86,23 @@ public class GalaxyRegionScene extends Scene implements Renderer
 	{
 		if (isRendering())
 		{
-			event.getContext().translate(
-					(int) (-camera.getX()+GraphicsManager.getMainLayerSet().getWidth()/2),
-					(int) (camera.getY()+GraphicsManager.getMainLayerSet().getHeight()/2)
+			AffineTransform orig = event.getContext().getTransform();
+			AffineTransform newAT = new AffineTransform(orig);
+			// Center over the camera
+			newAT.translate(
+					(GraphicsManager.getMainLayerSet().getWidth()/2-camera.getX()*scale),
+					(GraphicsManager.getMainLayerSet().getHeight()/2+camera.getY()*scale)
 					);
-			GraphicsManager.drawGraphic(
+			newAT.scale(scale, scale);
+			event.getContext().setTransform(newAT);
+			ImageDrawer.drawGraphic(
 					event.getContext(),
-					"RegionBG/bg1.jpg",
+					"RegionBG/bg2.jpg",
 					0,
 					0
 					);
-			objects.getEntities().forEach(
-					(Entity e)->
-					{
-						SpaceObject o = (SpaceObject) e;
-						RenderEvent event2 = event.clone();
-						event2.getContext().translate(
-								(int) (o.getBody().getRegion().getX()-camera.getX()),
-								(int) (-o.getBody().getRegion().getY()+camera.getY())
-								);
-						o.render(event2);
-					}
-					);
+			objects.render(event);
+			event.getContext().setTransform(orig);
 		}
 	}
 }
