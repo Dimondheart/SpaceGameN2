@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
 
 import xyz.digitalcookies.objective.utility.ExtendedMath;
 

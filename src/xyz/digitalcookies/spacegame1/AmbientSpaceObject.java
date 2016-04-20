@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
 
 /** A scene object that is non-sentient, meaning it will only change based
  * on its initial properties and when acted upon or interacting with

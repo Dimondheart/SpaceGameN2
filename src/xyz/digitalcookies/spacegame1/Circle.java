@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
 
 /** A shape representing a circular region.
  * @author Bryan Charles Bettis

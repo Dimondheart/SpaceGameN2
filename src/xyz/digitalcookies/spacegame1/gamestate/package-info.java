@@ -5,4 +5,4 @@
  * @author Bryan Charles Bettis
  *
  */
-package xyz.digitalcookies.ogetest.gamestate;
+package xyz.digitalcookies.spacegame1.gamestate;

@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
 
 /** Cannot be directly controlled by a player. A mostly immobile spacecraft
  * that can interact with things in its environment.

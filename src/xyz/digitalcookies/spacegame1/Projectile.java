@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
 
 /** A space object created by a weapon or other similar object that can
  * have an effect on other space objects. An example would be a cannon

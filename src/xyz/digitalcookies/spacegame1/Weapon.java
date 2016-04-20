@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
 
 /** A module that can be attached to a sentient space object to allow
  * it to have an effect (usually harmful) to a space object in its

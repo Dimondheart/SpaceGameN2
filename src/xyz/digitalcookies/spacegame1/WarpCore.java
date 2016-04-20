@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
 
 /** Enables a sentient space object to warp itself and/or another space
  * object between regions within a galaxy.

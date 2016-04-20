@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest.gamestate;
+package xyz.digitalcookies.spacegame1.gamestate;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -8,8 +8,8 @@ import xyz.digitalcookies.objective.input.Keyboard;
 import xyz.digitalcookies.objective.input.gui.Button;
 import xyz.digitalcookies.objective.input.gui.GUIPanel;
 import xyz.digitalcookies.objective.sound.SoundManager;
-import xyz.digitalcookies.ogetest.Galaxy;
-import xyz.digitalcookies.ogetest.GalaxyRegionScene;
+import xyz.digitalcookies.spacegame1.Galaxy;
+import xyz.digitalcookies.spacegame1.GalaxyRegionScene;
 
 import static java.awt.event.KeyEvent.*;
 //import static java.awt.event.MouseEvent.*;
@@ -51,7 +51,7 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 		GraphicsManager.getMainLayerSet().addRenderer(settingsMenu, 7);
 		GraphicsManager.getMainLayerSet().addRenderer(testScene, 4);
 		// Finalize states before starting
-		testScene.setPaused(false);
+		testScene.setUpdating(true);
 		testScene.setRendering(true);
 	}
 
@@ -93,11 +93,11 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 		}
 		if (pauseMenu.isEnabled() || settingsMenu.isEnabled())
 		{
-			testScene.setPaused(true);
+			testScene.setUpdating(false);
 		}
 		else
 		{
-			testScene.setPaused(false);
+			testScene.setUpdating(true);
 		}
 		testScene.updateScene(null);
 	}

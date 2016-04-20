@@ -1,8 +1,8 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
 
 import xyz.digitalcookies.objective.EngineSetupData;
 import xyz.digitalcookies.objective.GameSession;
-import xyz.digitalcookies.ogetest.gamestate.MainMenu;
+import xyz.digitalcookies.spacegame1.gamestate.MainMenu;
 
 @SuppressWarnings("javadoc")
 public class Main

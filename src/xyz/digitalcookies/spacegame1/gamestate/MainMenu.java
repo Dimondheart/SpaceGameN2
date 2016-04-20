@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest.gamestate;
+package xyz.digitalcookies.spacegame1.gamestate;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -8,7 +8,7 @@ import xyz.digitalcookies.objective.graphics.RendererPanel.RelativePosition;
 import xyz.digitalcookies.objective.input.gui.Button;
 import xyz.digitalcookies.objective.input.gui.GUIPanel;
 import xyz.digitalcookies.objective.sound.SoundManager;
-import xyz.digitalcookies.ogetest.TitleRenderer;
+import xyz.digitalcookies.spacegame1.TitleRenderer;
 
 //import static java.awt.event.KeyEvent.*;
 //import static java.awt.event.MouseEvent.*;

@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
 
 /** A component of a sentient object that is controlled or managed
  * by the sentient object containing/owning it.

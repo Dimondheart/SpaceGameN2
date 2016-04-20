@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
 
 /** Provides communication/connection between all possible galaxy region
  * scenes and manages related components.

@@ -1,4 +1,4 @@
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
 
 /** Represents a scene object is non-ambient, meaning it is affected by
  * and can make decisions based on environmental factors (including other

@@ -4,4 +4,4 @@
 /** Main package.
  * @author Bryan Charles Bettis
  */
-package xyz.digitalcookies.ogetest;
+package xyz.digitalcookies.spacegame1;
