@@ -37,11 +37,18 @@ public class GalaxyRegionScene extends Scene implements Renderer
 		camera = new PlaneVector();
 		objects = new EntityContainer();
 		objects.addEntity(new Spaceship());
+		objects.addEntity(new Spaceship());
 		((Spaceship) objects.getEntities().get(0))
-			.getBody().getRegion().getPosition().setVectorComp(450, -300);
+			.getBody().getRegion().getPosition().setVectorComp(1300, -1300);
 		((Spaceship) objects.getEntities().get(0))
 			.getBody().getRegion().setRadius(12);
-		((Spaceship) objects.getEntities().get(0)).getBody().getVelocity().setVector(60, 0);
+		((Spaceship) objects.getEntities().get(0)).getBody().getVelocity().setVector(60, 45);
+		((Spaceship) objects.getEntities().get(1))
+		.getBody().getRegion().getPosition().setVectorComp(1300, -1300);
+	((Spaceship) objects.getEntities().get(1))
+		.getBody().getRegion().setRadius(12);
+		((Spaceship) objects.getEntities().get(1)).getBody().getVelocity().setVector(-12, 5);
+//		((Spaceship) objects.getEntities().get(0)).getBody().getDirection().rotateDegrees(45);
 		targetPos = new Circle(targets[currTarget][0], targets[currTarget][1], 24);
 		lastUpdate = getTimer().getTimeSec();
 		camera = ((Spaceship) objects.getEntities().get(0)).getBody().getRegion().getPosition();
@@ -57,13 +64,12 @@ public class GalaxyRegionScene extends Scene implements Renderer
 			EntityUpdateEvent eue = new EntityUpdateEvent();
 			eue.setProperty(SpaceObject.EVENT_ELAPSED, elapsed);
 			eue.setProperty(SpaceObject.EVENT_OTHER_ENTITIES, objects);
-//			((SpaceObject) objects.getEntities().get(0)).getBody().getSteering().addVector(10, 0);
+			((SpaceObject) objects.getEntities().get(0)).getBody().getVelocity().rotateDegrees(64*elapsed);
 			objects.updateEntities(eue);
 			objects.getEntities().forEach(
 					(Entity e)->
 					{
-						SpaceObject o = (SpaceObject) e;
-						o.updatePhysics(elapsed);
+						((SpaceObject) e).updatePhysics(elapsed);
 					}
 					);
 		}
@@ -85,7 +91,18 @@ public class GalaxyRegionScene extends Scene implements Renderer
 					0,
 					0
 					);
-			objects.render(event);
+			objects.getEntities().forEach(
+					(Entity e)->
+					{
+						SpaceObject o = (SpaceObject) e;
+						RenderEvent event2 = event.clone();
+						event2.getContext().translate(
+								(int) (o.getBody().getRegion().getX()-camera.getX()),
+								(int) (-o.getBody().getRegion().getY()+camera.getY())
+								);
+						o.render(event2);
+					}
+					);
 		}
 	}
 }

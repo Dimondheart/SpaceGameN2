@@ -84,11 +84,21 @@ public class SpaceBody extends Body
 		// Apply the original magnitude of the steering force
 		accel.setMagnitude(getSteering().getMagnitude());
 		/* Update the rotation 'vector' to be turning towards the new 
-		 * acceleration.
+		 * acceleration (or the current vector if no acceleration.)
 		 */
-		double rotToAccel = 
-				accel.getDirectionDeg()
-				- getDirection().getDirectionDeg();
+		double rotToAccel = 0.0;
+		if (accel.getMagnitude() != 0)
+		{
+			rotToAccel = 
+					accel.getDirectionDeg()
+					- getDirection().getDirectionDeg();
+		}
+		else
+		{
+			rotToAccel = 
+					getVelocity().getDirectionDeg()
+					- getDirection().getDirectionDeg();
+		}
 		if ((0 < rotToAccel && rotToAccel < 180) || (rotToAccel < -180))
 		{
 			setRotationVector(45);

@@ -38,8 +38,8 @@ public abstract class SpaceObject implements Entity
 	@Override
 	public void render(RenderEvent event)
 	{
-		event.getContext().setColor(Color.blue);
 		Circle tbc = getBody().getRegion();
+		event.getContext().setColor(Color.yellow);
 		event.getContext().fillOval(
 				(int) (tbc.getX()-tbc.getRadius()),
 				(int) (-tbc.getY()-tbc.getRadius()),
@@ -53,15 +53,15 @@ public abstract class SpaceObject implements Entity
 				(int) (tbc.getX()+getBody().getVelocity().getX()),
 				(int) (-(tbc.getY()+getBody().getVelocity().getY()))
 				);
-//		event.getContext().setColor(Color.white);
-//		PlaneVector dv = getBody().getDirection().clone();
-//		dv.setMagnitude(15);
-//		event.getContext().drawLine(
-//				(int) (tbc.getX()),
-//				(int) (-tbc.getY()),
-//				(int) (tbc.getX()+dv.getX()),
-//				(int) (-(tbc.getY()+dv.getY()))
-//				);
+		event.getContext().setColor(Color.white);
+		PlaneVector dv = getBody().getDirection().clone();
+		dv.setMagnitude(15);
+		event.getContext().drawLine(
+				(int) (tbc.getX()),
+				(int) (-tbc.getY()),
+				(int) (tbc.getX()+dv.getX()),
+				(int) (-(tbc.getY()+dv.getY()))
+				);
 	}
 	
 	public SpaceBody getBody()
