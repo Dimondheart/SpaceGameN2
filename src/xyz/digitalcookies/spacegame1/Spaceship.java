@@ -108,7 +108,11 @@ public class Spaceship extends SentientSpaceObject
 		// Rotate steering to be relative to the direction of the ship
 		steering.rotateDegrees(getBody().getDirection().getDirectionDeg());
 		// Calculate the vector from center screen to mouse cursor
-		if (!Keyboard.isDown(VK_SHIFT))
+		if (Keyboard.isDown(VK_SHIFT))
+		{
+			getBody().setRotation(0);
+		}
+		else
 		{
 			PlaneVector toMouse = new PlaneVector();
 			toMouse.setVectorComp(Mouse.getUnpolledX(), -Mouse.getUnpolledY());
