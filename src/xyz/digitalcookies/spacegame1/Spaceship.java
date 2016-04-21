@@ -22,6 +22,17 @@ import static java.awt.event.KeyEvent.*;
  */
 public class Spaceship extends SentientSpaceObject
 {
+	public Spaceship()
+	{
+		this(0, 0);
+	}
+	
+	public Spaceship(double x, double y)
+	{
+		getBody().getRegion().setRadius(70);
+		getBody().getRegion().getPosition().setVectorComp(x, y);
+	}
+	
 	@Override
 	public void update(EntityUpdateEvent event)
 	{
@@ -37,9 +48,9 @@ public class Spaceship extends SentientSpaceObject
 			updateNPC(event);
 		}
 		// Clip velocity to max
-		if (getBody().getVelocity().getMagnitude() > 120)
+		if (getBody().getVelocity().getMagnitude() > 400)
 		{
-			getBody().getVelocity().setMagnitude(120);
+			getBody().getVelocity().setMagnitude(400);
 		}
 	}
 	
@@ -48,11 +59,10 @@ public class Spaceship extends SentientSpaceObject
 	{
 		super.render(event);
 		AffineTransform orig = event.getContext().getTransform();
-		AffineTransform newTrans = new AffineTransform(orig);
-		newTrans.rotate(-getBody().getDirection().getDirectionRad(), 0, 0);
+		event.getContext().rotate(-getBody().getDirection().getDirectionRad(), 0, 0);
 		BufferedImage img =
 				GraphicsManager.getResManager().getRes("blueships1.png");
-		newTrans.scale(
+		event.getContext().scale(
 				getBody().getRegion().getRadius()
 					*2
 					/img.getWidth(),
@@ -60,7 +70,6 @@ public class Spaceship extends SentientSpaceObject
 					*2
 					/img.getWidth()
 				);
-		event.getContext().setTransform(newTrans);
 		ImageDrawer.drawGraphic(
 				event.getContext(),
 				img,
@@ -97,13 +106,13 @@ public class Spaceship extends SentientSpaceObject
 		if (Keyboard.isDown(VK_X) && getBody().getVelocity().getMagnitude() != 0)
 		{
 			PlaneVector reqVector = getBody().getVelocity().getUnitVector();
-			reqVector.setMagnitude(-25);
+			reqVector.setMagnitude(-100);
 			getBody().getSteering().addVector(reqVector);
 		}
 		// If net steering force applied by keys is > 0, increase magnitude
 		if (steering.getMagnitude() > 0)
 		{
-			steering.setMagnitude(25);
+			steering.setMagnitude(100);
 		}
 		// Rotate steering to be relative to the direction of the ship
 		steering.rotateDegrees(getBody().getDirection().getDirectionDeg());
@@ -167,7 +176,7 @@ public class Spaceship extends SentientSpaceObject
 									)
 						)
 					{
-						toShip.setMagnitude(-25);
+						toShip.setMagnitude(-80);
 					}
 					else if (
 							other ==
@@ -176,7 +185,7 @@ public class Spaceship extends SentientSpaceObject
 									)
 							)
 					{
-						toShip.setMagnitude(25);
+						toShip.setMagnitude(toShip.getMagnitude()/10.0);
 					}
 					else
 					{

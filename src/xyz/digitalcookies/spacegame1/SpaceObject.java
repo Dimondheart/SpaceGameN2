@@ -6,8 +6,8 @@ import xyz.digitalcookies.objective.graphics.RenderEvent;
 import xyz.digitalcookies.objective.scene.Entity;
 import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 
-/** Any independent entity existing within 1-2 galaxy regions
- * at a time. "Independent" means that its operation is not dependent
+/** Any independent entity existing within a galaxy region.
+ * "Independent" means that its operation is not dependent
  * on a "parent entity," such as a ship.
  * @author Bryan Charles Bettis
  */
@@ -18,7 +18,6 @@ public abstract class SpaceObject implements Entity
 	public static final String EVENT_PLAYER_CTRL = "playerCtrl";
 	
 	private SpaceBody body;
-	private int lastX;
 	
 	public SpaceObject()
 	{
@@ -39,11 +38,11 @@ public abstract class SpaceObject implements Entity
 	@Override
 	public void render(RenderEvent event)
 	{
-		Circle tbc = getBody().getRegion();
 		event.getContext().translate(
 				(int) getBody().getRegion().getX(),
 				(int) -getBody().getRegion().getY()
 				);
+//		Circle tbc = getBody().getRegion();
 //		event.getContext().setColor(Color.yellow);
 //		event.getContext().fillOval(
 //				(int) (-tbc.getRadius()),

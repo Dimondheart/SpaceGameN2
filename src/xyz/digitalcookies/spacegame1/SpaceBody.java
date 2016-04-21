@@ -83,7 +83,7 @@ public class SpaceBody extends Body
 		// Determine the offset vector
 		PlaneVector accelOffset = new PlaneVector();
 		// Offset magnitude should be less than original steering magnitude
-		accelOffset.setMagnitude(getSteering().getMagnitude()*2.0/3.0);
+		accelOffset.setMagnitude(getSteering().getMagnitude()*0.5);
 		// Offset direction is steering - (steering - current velocity)
 		accelOffset.setDirection(
 				2.0*getSteering().getDirectionDeg()

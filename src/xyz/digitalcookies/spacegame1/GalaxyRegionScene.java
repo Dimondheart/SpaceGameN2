@@ -33,20 +33,10 @@ public class GalaxyRegionScene extends Scene implements Renderer
 		camera = new PlaneVector();
 		objects = new EntityContainer();
 		playerShip = new Spaceship();
+		objects.addEntity(new SpaceStation());
 		objects.addEntity(playerShip);
 		objects.addEntity(new Spaceship());
-		objects.addEntity(new Spaceship());
-		playerShip
-			.getBody().getRegion().getPosition().setVectorComp(0, 0);
-		playerShip.getBody().getRegion().setRadius(70);
-		((Spaceship) objects.getEntities().get(1))
-			.getBody().getRegion().getPosition().setVectorComp(200, -120);
-		((Spaceship) objects.getEntities().get(1))
-			.getBody().getRegion().setRadius(70);
-		((Spaceship) objects.getEntities().get(2))
-			.getBody().getRegion().getPosition().setVectorComp(300, -20);
-		((Spaceship) objects.getEntities().get(2))
-			.getBody().getRegion().setRadius(70);
+		objects.addEntity(new Spaceship(300, -20));
 		lastUpdate = getTimer().getTimeSec();
 		camera = playerShip.getBody().getRegion().getPosition();
 	}
@@ -64,7 +54,7 @@ public class GalaxyRegionScene extends Scene implements Renderer
 			eue.setProperty(SpaceObject.EVENT_PLAYER_CTRL, playerShip);
 			objects.updateEntities(eue);
 			// After primary updates, update the physics of each object
-			objects.getEntities().forEach(
+			objects.getEntities((Entity e)->{return e instanceof SpaceObject;}).forEach(
 					(Entity e)->
 					{
 						((SpaceObject) e).updatePhysics(elapsed);
@@ -100,14 +90,13 @@ public class GalaxyRegionScene extends Scene implements Renderer
 					GraphicsManager.getMainLayerSet().getHeight()
 					);
 			AffineTransform origAT = event.getContext().getTransform();
-//			AffineTransform newAT = new AffineTransform(orig);
 			// Center over the camera
 			event.getContext().translate(
 					(GraphicsManager.getMainLayerSet().getWidth()/2-camera.getX()*scale),
 					(GraphicsManager.getMainLayerSet().getHeight()/2+camera.getY()*scale)
 					);
 			event.getContext().scale(scale, scale);
-			renderGrid(event);
+//			renderGrid(event);
 			objects.render(event);
 			event.getContext().setTransform(origAT);
 		}
