@@ -37,9 +37,9 @@ public class Spaceship extends SentientSpaceObject
 			updateNPC(event);
 		}
 		// Clip velocity to max
-		if (getBody().getVelocity().getMagnitude() > 40)
+		if (getBody().getVelocity().getMagnitude() > 120)
 		{
-			getBody().getVelocity().setMagnitude(40);
+			getBody().getVelocity().setMagnitude(120);
 		}
 	}
 	
@@ -94,11 +94,11 @@ public class Spaceship extends SentientSpaceObject
 			steering.addVector(0, -1);
 		}
 		// Apply steering to slow down the ship
-		if (Keyboard.isDown(VK_X))
+		if (Keyboard.isDown(VK_X) && getBody().getVelocity().getMagnitude() != 0)
 		{
 			PlaneVector reqVector = getBody().getVelocity().getUnitVector();
-			reqVector.setMagnitude(-0.5);
-			steering.addVector(reqVector);
+			reqVector.setMagnitude(-25);
+			getBody().getSteering().addVector(reqVector);
 		}
 		// If net steering force applied by keys is > 0, increase magnitude
 		if (steering.getMagnitude() > 0)

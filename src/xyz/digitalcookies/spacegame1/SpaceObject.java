@@ -51,13 +51,15 @@ public abstract class SpaceObject implements Entity
 //				(int) (tbc.getRadius()*2),
 //				(int) (tbc.getRadius()*2)
 //				);
-//		event.getContext().setColor(Color.green);
-//		event.getContext().drawLine(
-//				(int) (0),
-//				(int) (0),
-//				(int) (getBody().getVelocity().getX()),
-//				(int) (-(getBody().getVelocity().getY()))
-//				);
+		PlaneVector mv = getBody().getVelocity().clone();
+		mv.setMagnitude(mv.getMagnitude()*1.5);
+		event.getContext().setColor(Color.green);
+		event.getContext().drawLine(
+				(int) (0),
+				(int) (0),
+				(int) (mv.getX()),
+				(int) (-(mv.getY()))
+				);
 //		event.getContext().setColor(Color.white);
 //		PlaneVector dv = getBody().getDirection().clone();
 //		dv.setMagnitude(15);
