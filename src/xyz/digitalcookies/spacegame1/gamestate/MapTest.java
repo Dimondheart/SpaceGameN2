@@ -11,6 +11,7 @@ import xyz.digitalcookies.objective.graphics.ImageDrawer;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
 import xyz.digitalcookies.objective.graphics.Renderer;
 import xyz.digitalcookies.objective.input.Mouse;
+import xyz.digitalcookies.spacegame1.scene.GalaxyRegionData;
 
 import static java.awt.event.MouseEvent.*;
 
@@ -19,7 +20,7 @@ public class MapTest extends GameState implements Renderer
 	Random rand;
 	
 	@Override
-	protected void setupState(ConcurrentHashMap<String, Object> arg0)
+	protected void setupState(ConcurrentHashMap<String, Object> setupArgs)
 	{
 		GraphicsManager.getMainLayerSet().addRenderer(this, 4);
 		rand = new Random();
@@ -74,6 +75,10 @@ public class MapTest extends GameState implements Renderer
 		System.out.print(avg);
 		System.out.print(", Randomized (Normal Distribution): ");
 		System.out.println(ra);
+		GalaxyRegionData regData = new GalaxyRegionData();
+		regData.setResAmt(ra);
+		this.getNewStateArgs().put("regionData", regData);
+		changeState(OriginalMode.class);
 	}
 	
 	@Override

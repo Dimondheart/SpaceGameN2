@@ -1,6 +1,8 @@
-package xyz.digitalcookies.spacegame1;
+package xyz.digitalcookies.spacegame1.scene;
 
 import xyz.digitalcookies.objective.scene.Body;
+import xyz.digitalcookies.spacegame1.Circle;
+import xyz.digitalcookies.spacegame1.PlaneVector;
 
 /** Physical aspects common to all space objects, including mass, direction,
  * velocity, steering force, and the occupied region.

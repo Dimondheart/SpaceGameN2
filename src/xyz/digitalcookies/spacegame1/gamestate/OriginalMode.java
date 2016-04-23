@@ -10,7 +10,8 @@ import xyz.digitalcookies.objective.input.gui.Button;
 import xyz.digitalcookies.objective.input.gui.GUIPanel;
 import xyz.digitalcookies.objective.scene.SceneUpdateEvent;
 import xyz.digitalcookies.objective.sound.SoundManager;
-import xyz.digitalcookies.spacegame1.GalaxyRegionScene;
+import xyz.digitalcookies.spacegame1.scene.GalaxyRegionData;
+import xyz.digitalcookies.spacegame1.scene.GalaxyRegionScene;
 
 import static java.awt.event.KeyEvent.*;
 //import static java.awt.event.MouseEvent.*;
@@ -32,13 +33,16 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 	@Override
 	protected void setupState(ConcurrentHashMap<String, Object> setupArgs)
 	{
+		GalaxyRegionData regData =
+				(GalaxyRegionData)
+				setupArgs.getOrDefault("regionData", new GalaxyRegionData());
 		Settings.setSetting(Settings.INVERT_SCROLL_WHEEL, true);
 		// Basic setup stuff
 		SoundManager.playBGM("Into_the_Unknown.wav", SoundManager.BGMTransition.IMMEDIATE);
 		// Make instances
 		pauseMenu = new GUIPanel(0,0);
 		settingsMenu = new GUIPanel(0,0);
-		testScene = new GalaxyRegionScene();
+		testScene = new GalaxyRegionScene(regData);
 		// Add to secondary containers
 		pauseMenu.addRenderer(new Button(0,0,100,25,"Quit to Main Menu"), "mainMenu");
 		pauseMenu.addRenderer(new Button(0,0,100,25,"Resume"), "resume", RelativePosition.ABOVE, "mainMenu");

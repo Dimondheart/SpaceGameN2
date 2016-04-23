@@ -1,4 +1,4 @@
-package xyz.digitalcookies.spacegame1;
+package xyz.digitalcookies.spacegame1.scene;
 
 /** Reduces or blocks out damage to the owning sentient object.
  * @author Bryan Charles Bettis

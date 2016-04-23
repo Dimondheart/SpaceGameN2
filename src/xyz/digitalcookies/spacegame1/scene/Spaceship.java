@@ -1,7 +1,8 @@
-package xyz.digitalcookies.spacegame1;
+package xyz.digitalcookies.spacegame1.scene;
 
 import xyz.digitalcookies.objective.scene.Entity;
 import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
+import xyz.digitalcookies.spacegame1.PlaneVector;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;

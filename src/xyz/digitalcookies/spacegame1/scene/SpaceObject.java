@@ -1,4 +1,4 @@
-package xyz.digitalcookies.spacegame1;
+package xyz.digitalcookies.spacegame1.scene;
 
 import java.awt.Color;
 

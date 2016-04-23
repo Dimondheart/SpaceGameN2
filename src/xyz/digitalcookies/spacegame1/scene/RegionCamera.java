@@ -1,7 +1,8 @@
-package xyz.digitalcookies.spacegame1;
+package xyz.digitalcookies.spacegame1.scene;
 
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.scene.Camera;
+import xyz.digitalcookies.spacegame1.PlaneVector;
 
 /** The camera for a galaxy region scene.
  * @author Bryan Charles Bettis
@@ -10,8 +11,8 @@ public class RegionCamera implements Camera
 {
 	/** The object the camera will follow, if set. */
 	private SpaceObject following;
+	/** The scaling factor of the camera. */
 	private double scale = 1.0;
-	
 	
 	@Override
 	public int getX()

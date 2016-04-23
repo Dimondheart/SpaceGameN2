@@ -1,4 +1,4 @@
-package xyz.digitalcookies.spacegame1;
+package xyz.digitalcookies.spacegame1.scene;
 
 /** Prevents other sentient space objects from detecting the owning
  * sentient space object.

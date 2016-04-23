@@ -1,11 +1,10 @@
-package xyz.digitalcookies.spacegame1;
+package xyz.digitalcookies.spacegame1.scene;
 
 import xyz.digitalcookies.objective.scene.SceneUpdateEvent;
 import xyz.digitalcookies.objective.scene.Entity;
 import xyz.digitalcookies.objective.scene.EntityContainer;
 import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 import xyz.digitalcookies.objective.scene.Scene;
-
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.graphics.ImageDrawer;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
@@ -26,7 +25,7 @@ public class GalaxyRegionScene extends Scene implements Renderer
 	private Spaceship playerShip;
 	private EntityContainer spaceDust;
 	
-	public GalaxyRegionScene()
+	public GalaxyRegionScene(GalaxyRegionData data)
 	{
 		camera = new RegionCamera();
 		objects = new EntityContainer();

@@ -133,7 +133,7 @@ public class PlaneVector implements Cloneable
 		return direction;
 	}
 	
-	protected double getDirectionRad()
+	public double getDirectionRad()
 	{
 		return ExtendedMath.degToRad(getDirectionDeg());
 	}

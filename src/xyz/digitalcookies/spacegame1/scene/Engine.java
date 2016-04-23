@@ -1,4 +1,4 @@
-package xyz.digitalcookies.spacegame1;
+package xyz.digitalcookies.spacegame1.scene;
 
 /** Manages motion related properties (such as max speed or max acceleration)
  * for the sentient object owning it.

@@ -1,4 +1,4 @@
-package xyz.digitalcookies.spacegame1;
+package xyz.digitalcookies.spacegame1.scene;
 
 /** Represents a scene object is non-ambient, meaning it is affected by
  * and can make decisions based on environmental factors (including other
