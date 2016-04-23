@@ -41,6 +41,7 @@ public class MainMenu extends GameState
 		topMenu.addRenderer(new Button(0,0,100,25,"Settings"), "toSettings", RelativePosition.BELOW, "playOriginal");
 		topMenu.addRenderer(new Button(0,0,100,25,"Quit"), "quitButton", RelativePosition.BELOW, "toSettings");
 		topMenu.addRenderer(new TitleRenderer(), "title", RelativePosition.ABOVE, "playOriginal");
+		topMenu.addRenderer(new Button(0,0,100,25,"Map Test"), "mapTest", RelativePosition.BELOW, "playOriginal");
 		settingsMenu.addRenderer(new Button(0,0,100,25,"Back"), "back");
 		// More setup stuff
 		topMenu.centerOverWindow(true);
@@ -54,12 +55,16 @@ public class MainMenu extends GameState
 	@Override
 	public void cycleState()
 	{
-		if (topMenu.isVisible())
+		if (topMenu.isEnabled())
 		{
 			if (topMenu.getButton("playOriginal").justReleased())
 			{
 				changeState(OriginalMode.class);
 				return;
+			}
+			else if (topMenu.getButton("mapTest").justReleased())
+			{
+				changeState(MapTest.class);
 			}
 			else if (topMenu.getButton("toSettings").justReleased())
 			{
@@ -72,7 +77,7 @@ public class MainMenu extends GameState
 				return;
 			}
 		}
-		if (settingsMenu.isEnabled())
+		else if (settingsMenu.isEnabled())
 		{
 			if (settingsMenu.getButton("back").justReleased())
 			{
