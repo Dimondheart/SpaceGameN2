@@ -26,6 +26,12 @@ public class RegionCamera implements Camera
 		offset += GraphicsManager.getMainLayerSet().getWidth()/2;
 		return (int) offset;
 	}
+	
+	@Override
+	public int getX(double x)
+	{
+		return (int)(x*getScale() + getX());
+	}
 
 	@Override
 	public int getY()
@@ -42,21 +48,18 @@ public class RegionCamera implements Camera
 	}
 	
 	@Override
-	public double getScale()
-	{
-		return scale;
-	}
-	
-	public int getX(double x)
-	{
-		return (int)(x*getScale() + getX());
-	}
-	
 	public int getY(double y)
 	{
 		return (int)(y*getScale() + getY());
 	}
 	
+	@Override
+	public double getScale()
+	{
+		return scale;
+	}
+	
+	@Override
 	public void setScale(double scale)
 	{
 		this.scale = scale;
