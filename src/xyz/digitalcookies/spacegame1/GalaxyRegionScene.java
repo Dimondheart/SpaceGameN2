@@ -21,103 +21,76 @@ import xyz.digitalcookies.objective.input.Mouse;
  */
 public class GalaxyRegionScene extends Scene implements Renderer
 {
+	public static final String EVENT_CAMERA = "camera";
 	private EntityContainer objects;
 	private int currTarget = 0;
-	private double lastUpdate = 0;
-	private PlaneVector camera;
+	private RegionCamera camera;
 	private double scale = 1.0;
 	private Spaceship playerShip;
+	private EntityContainer spaceDust;
 	
 	public GalaxyRegionScene()
 	{
-		camera = new PlaneVector();
+		camera = new RegionCamera();
 		objects = new EntityContainer();
+		spaceDust = new EntityContainer();
 		playerShip = new Spaceship();
+		camera.follow(playerShip);
 		objects.addEntity(new SpaceStation());
 		objects.addEntity(playerShip);
 		objects.addEntity(new Spaceship());
 		objects.addEntity(new Spaceship(300, -20));
-		lastUpdate = getTimer().getTimeSec();
-		camera = playerShip.getBody().getRegion().getPosition();
 	}
 	
 	@Override
-	public void updateScene(SceneUpdateEvent event)
+	protected void updateScene(SceneUpdateEvent event)
 	{
-		double currTime = getTimer().getTimeSec();
-		double elapsed = currTime - lastUpdate;
-		if (isUpdating())
+		EntityUpdateEvent eue = new EntityUpdateEvent();
+		eue.setProperty(SpaceObject.EVENT_ELAPSED, event.getProperty(Scene.UPDATE_ELAPSED));
+		eue.setProperty(SpaceObject.EVENT_ENTITIES, objects.getEntities());
+		eue.setProperty(SpaceObject.EVENT_PLAYER_CTRL, playerShip);
+		objects.updateEntities(eue);
+		// After primary updates, update the physics of each object
+		objects.getEntities((Entity e)->{return e instanceof SpaceObject;}).forEach(
+				(Entity e)->
+				{
+					((SpaceObject) e).updatePhysics(
+							(double) event.getProperty(Scene.UPDATE_ELAPSED)
+							);
+				}
+				);
+		if (Mouse.getWheelChange() > 0)
 		{
-			EntityUpdateEvent eue = new EntityUpdateEvent();
-			eue.setProperty(SpaceObject.EVENT_ELAPSED, elapsed);
-			eue.setProperty(SpaceObject.EVENT_ENTITIES, objects.getEntities());
-			eue.setProperty(SpaceObject.EVENT_PLAYER_CTRL, playerShip);
-			objects.updateEntities(eue);
-			// After primary updates, update the physics of each object
-			objects.getEntities((Entity e)->{return e instanceof SpaceObject;}).forEach(
-					(Entity e)->
-					{
-						((SpaceObject) e).updatePhysics(elapsed);
-					}
-					);
-			if (Mouse.getWheelChange() > 0)
-			{
-				scale *= 0.95;
-			}
-			else if (Mouse.getWheelChange() < 0)
-			{
-				scale *= 1.05;
-			}
-			if (scale > 1.0)
-			{
-				scale = 1.0;
-			}
+			camera.zoomIn();
 		}
-		lastUpdate = currTime;
+		else if (Mouse.getWheelChange() < 0)
+		{
+			camera.zoomOut();
+		}
+		System.out.println(event.getProperty(Scene.UPDATE_ELAPSED));
 	}
 	
 	@Override
-	public void render(RenderEvent event)
+	public void renderScene(RenderEvent event)
 	{
-		if (isRendering())
-		{
-			ImageDrawer.drawGraphic(
-					event.getContext(),
-					"RegionBG/bg2.jpg",
-					0,
-					0,
-					GraphicsManager.getMainLayerSet().getWidth(),
-					GraphicsManager.getMainLayerSet().getHeight()
-					);
-			AffineTransform origAT = event.getContext().getTransform();
-			// Center over the camera
-			event.getContext().translate(
-					(GraphicsManager.getMainLayerSet().getWidth()/2-camera.getX()*scale),
-					(GraphicsManager.getMainLayerSet().getHeight()/2+camera.getY()*scale)
-					);
-			event.getContext().scale(scale, scale);
-//			renderGrid(event);
-			objects.render(event);
-			event.getContext().setTransform(origAT);
-		}
-	}
-	
-	private void renderGrid(RenderEvent event)
-	{
-		// Draw the x axis
-		event.getContext().setColor(Color.white);
-		event.getContext().fillRect(
-				-100000,
-				-1,
-				200000,
-				2
+		ImageDrawer.drawGraphic(
+				event.getContext(),
+				"RegionBG/white_star_field_1.jpg",
+				0,
+				0,
+				GraphicsManager.getMainLayerSet().getWidth(),
+				GraphicsManager.getMainLayerSet().getHeight()
 				);
-		// Draw y axis
-		event.getContext().fillRect(
-				-1,
-				-100000,
-				2,
-				200000
-				);
+//		AffineTransform origAT = event.getContext().getTransform();
+		// Center over the camera
+//		event.getContext().translate(
+//				(GraphicsManager.getMainLayerSet().getWidth()/2-camera.getX()*scale),
+//				(GraphicsManager.getMainLayerSet().getHeight()/2+camera.getY()*scale)
+//				);
+//		event.getContext().scale(scale, scale);
+		// Add the camera to the event
+		event.setProperty(GalaxyRegionScene.EVENT_CAMERA, camera);
+		objects.render(event);
+//		event.getContext().setTransform(origAT);
 	}
 }

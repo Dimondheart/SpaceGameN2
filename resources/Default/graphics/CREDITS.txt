@@ -3,12 +3,16 @@ Most if not all of these graphics will not be in the game when it is released, t
 are only being used for testing purposes.
 
 
-Credits for Graphics:
+Credits/Sources for Graphics:
+
 blueships1.png: MillionthVector http://millionthvector.blogspot.de
 - http://opengameart.org/content/blue-fighter-spaceship
-bg2.png
-- http://il9.picdn.net/shutterstock/videos/14060987/thumb/1.jpg
+
 starbase-tex.png: MillionthVector http://millionthvector.blogspot.de
 - ???
 
-I do not claim credit for the following graphics, but I don't know their original source:
+Maps/galaxy_cloud_1.jpg
+- https://newevolutiondesigns.com/40-super-hd-galaxy-wallpapers
+
+RegionBG/white_star_field_1.jpg
+- http://www.axsysnav.eu/space/

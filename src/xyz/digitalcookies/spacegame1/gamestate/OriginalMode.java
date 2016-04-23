@@ -2,6 +2,7 @@ package xyz.digitalcookies.spacegame1.gamestate;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import xyz.digitalcookies.objective.Settings;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.graphics.RendererPanel.RelativePosition;
 import xyz.digitalcookies.objective.input.Keyboard;
@@ -25,10 +26,13 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 	private GUIPanel settingsMenu;
 	/** A scene for testing/development purposes. */
 	private GalaxyRegionScene testScene;
+	/** Indicates when the current scene should be paused. */
+	private boolean scenePaused = false;
 	
 	@Override
 	protected void setupState(ConcurrentHashMap<String, Object> setupArgs)
 	{
+		Settings.setSetting(Settings.INVERT_SCROLL_WHEEL, true);
 		// Basic setup stuff
 		SoundManager.playBGM("Into_the_Unknown.wav", SoundManager.BGMTransition.IMMEDIATE);
 		// Make instances
@@ -37,6 +41,7 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 		testScene = new GalaxyRegionScene();
 		// Add to secondary containers
 		pauseMenu.addRenderer(new Button(0,0,100,25,"Quit to Main Menu"), "mainMenu");
+		pauseMenu.addRenderer(new Button(0,0,100,25,"Resume"), "resume", RelativePosition.ABOVE, "mainMenu");
 		pauseMenu.addRenderer(new Button(0,0,100,25,"Settings"), "settings", RelativePosition.ABOVE, "mainMenu");
 		pauseMenu.addRenderer(new Button(0,0,100,25,"Quit"), "quit", RelativePosition.BELOW, "mainMenu");
 		settingsMenu.addRenderer(new Button(0,0,100,25,"Back"), "back");
@@ -52,8 +57,8 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 		GraphicsManager.getMainLayerSet().addRenderer(settingsMenu, 7);
 		GraphicsManager.getMainLayerSet().addRenderer(testScene, 4);
 		// Finalize states before starting
-		testScene.setUpdating(true);
-		testScene.setRendering(true);
+		testScene.setPaused(false);
+		testScene.setVisible(true);
 	}
 
 	@Override
@@ -62,6 +67,7 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 		// Handle pause menu if open
 		if (pauseMenu.isEnabled())
 		{
+			scenePaused = true;
 			// Return to main menu
 			if (pauseMenu.getButton("mainMenu").justReleased())
 			{
@@ -82,15 +88,20 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 				changeState(null);
 			}
 			// Disable pause menu
-			else if (Keyboard.justReleased(VK_ESCAPE))
+			else if (
+					Keyboard.justReleased(VK_ESCAPE) ||
+					pauseMenu.getButton("resume").justReleased()
+			)
 			{
 				pauseMenu.setVisible(false);
 				pauseMenu.setEnabled(false);
+				scenePaused = false;
 			}
 		}
 		// Handle settings menu if open
 		else if (settingsMenu.isEnabled())
 		{
+			scenePaused = true;
 			// Go back to pause menu
 			if (
 				settingsMenu.getButton("back").justReleased() ||
@@ -106,26 +117,24 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 		// Enable pause menu
 		else if (Keyboard.justReleased(VK_ESCAPE))
 		{
+			scenePaused = true;
 			pauseMenu.setEnabled(true);
 			pauseMenu.setVisible(true);
 		}
-		// If either of the menus are open, pause the test scene
-		if (pauseMenu.isEnabled() || settingsMenu.isEnabled())
-		{
-			testScene.setUpdating(false);
-		}
-		// Resume the test scene
 		else
 		{
-			testScene.setUpdating(true);
+			scenePaused = false;
 		}
+		// Scene needs to be paused/resumed
+//		testScene.setPaused(scenePaused);
 		// Update the test scene
-		testScene.updateScene(new SceneUpdateEvent());
+		testScene.update(new SceneUpdateEvent());
 	}
 	
 	@Override
 	protected void cleanupState()
 	{
+		Settings.setSetting(Settings.INVERT_SCROLL_WHEEL, true);
 		SoundManager.stopBGM();
 		GraphicsManager.clearAll();
 	}

@@ -28,23 +28,21 @@ public class SpaceStation extends SentientSpaceObject
 	public void render(RenderEvent event)
 	{
 		super.render(event);
+		RegionCamera camera =
+				(RegionCamera) event.getProperty(GalaxyRegionScene.EVENT_CAMERA);
 		AffineTransform orig = event.getContext().getTransform();
 		event.getContext().rotate(-getBody().getDirection().getDirectionRad(), 0, 0);
 		BufferedImage img =
 				GraphicsManager.getResManager().getRes("starbase-tex.png");
-		event.getContext().scale(
-				getBody().getRegion().getRadius()
-					*2
-					/img.getWidth(),
-				getBody().getRegion().getRadius()
-					*2
-					/img.getWidth()
-				);
+		double w = getBody().getRegion().getRadius()*2*camera.getScale();
+		double h = img.getHeight()*w/img.getWidth();
 		ImageDrawer.drawGraphic(
 				event.getContext(),
 				img,
-				-img.getWidth()/2,
-				-img.getHeight()/2
+				-(int)(w/2),
+				-(int)(h/2),
+				(int) w,
+				(int) h
 				);
 		event.getContext().setTransform(orig);
 	}

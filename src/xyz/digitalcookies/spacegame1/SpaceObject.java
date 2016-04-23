@@ -38,17 +38,25 @@ public abstract class SpaceObject implements Entity
 	@Override
 	public void render(RenderEvent event)
 	{
-		event.getContext().translate(
-				(int) getBody().getRegion().getX(),
+		RegionCamera camera =
+				(RegionCamera) event.getProperty(GalaxyRegionScene.EVENT_CAMERA);
+		int x = 
+				(int) getBody().getRegion().getX()
+				+ ((RegionCamera) event.getProperty(GalaxyRegionScene.EVENT_CAMERA)).getX();
+		int y = 
 				(int) -getBody().getRegion().getY()
+				+ ((RegionCamera) event.getProperty(GalaxyRegionScene.EVENT_CAMERA)).getY();
+		event.getContext().translate(
+				x,
+				y
 				);
 //		Circle tbc = getBody().getRegion();
 //		event.getContext().setColor(Color.yellow);
 //		event.getContext().fillOval(
-//				(int) (-tbc.getRadius()),
-//				(int) (-tbc.getRadius()),
-//				(int) (tbc.getRadius()*2),
-//				(int) (tbc.getRadius()*2)
+//				(int) (-tbc.getRadius()*camera.getScale()),
+//				(int) (-tbc.getRadius()*camera.getScale()),
+//				(int) (tbc.getRadius()*2*camera.getScale()),
+//				(int) (tbc.getRadius()*2*camera.getScale())
 //				);
 //		PlaneVector mv = getBody().getVelocity().clone();
 //		mv.setMagnitude(mv.getMagnitude()*1.5);
