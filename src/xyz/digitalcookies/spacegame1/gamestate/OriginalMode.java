@@ -126,7 +126,7 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 			scenePaused = false;
 		}
 		// Scene needs to be paused/resumed
-//		testScene.setPaused(scenePaused);
+		testScene.setPaused(scenePaused);
 		// Update the test scene
 		testScene.update(new SceneUpdateEvent());
 	}
