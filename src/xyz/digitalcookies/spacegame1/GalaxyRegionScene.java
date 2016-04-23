@@ -6,9 +6,6 @@ import xyz.digitalcookies.objective.scene.EntityContainer;
 import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 import xyz.digitalcookies.objective.scene.Scene;
 
-import java.awt.Color;
-import java.awt.geom.AffineTransform;
-
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.graphics.ImageDrawer;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
@@ -67,7 +64,6 @@ public class GalaxyRegionScene extends Scene implements Renderer
 		{
 			camera.zoomOut();
 		}
-		System.out.println(event.getProperty(Scene.UPDATE_ELAPSED));
 	}
 	
 	@Override

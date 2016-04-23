@@ -16,29 +16,50 @@ public class RegionCamera implements Camera
 	@Override
 	public int getX()
 	{
-		double offset = GraphicsManager.getMainLayerSet().getWidth()/2;
+		double offset = 0.0;
 		if (following != null)
 		{
-			offset -= following.getBody().getRegion().getX();
+			PlaneVector scaled = following.getBody().getRegion().getPosition().clone();
+			scaled.setMagnitude(scaled.getMagnitude()*getScale());
+			offset -= scaled.getX();
 		}
+		offset += GraphicsManager.getMainLayerSet().getWidth()/2;
 		return (int) offset;
 	}
 
 	@Override
 	public int getY()
 	{
-		double offset = -GraphicsManager.getMainLayerSet().getHeight()/2;
+		double offset = 0.0;
 		if (following != null)
 		{
-			offset -= following.getBody().getRegion().getY()+getScale()*3/4;
+			PlaneVector scaled = following.getBody().getRegion().getPosition().clone();
+			scaled.setMagnitude(scaled.getMagnitude()*getScale());
+			offset -= scaled.getY();
 		}
-		return (int) -offset;
+		offset -= GraphicsManager.getMainLayerSet().getHeight()/2;
+		return -(int) offset;
 	}
 	
 	@Override
 	public double getScale()
 	{
 		return scale;
+	}
+	
+	public int getX(double x)
+	{
+		return (int)(x*getScale() + getX());
+	}
+	
+	public int getY(double y)
+	{
+		return (int)(y*getScale() + getY());
+	}
+	
+	public void setScale(double scale)
+	{
+		this.scale = scale;
 	}
 	
 	public void follow(SpaceObject object)

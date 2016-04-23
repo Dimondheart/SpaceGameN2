@@ -40,12 +40,10 @@ public abstract class SpaceObject implements Entity
 	{
 		RegionCamera camera =
 				(RegionCamera) event.getProperty(GalaxyRegionScene.EVENT_CAMERA);
-		int x = 
-				(int) getBody().getRegion().getX()
-				+ ((RegionCamera) event.getProperty(GalaxyRegionScene.EVENT_CAMERA)).getX();
+		int x =
+				camera.getX(getBody().getRegion().getX());
 		int y = 
-				(int) -getBody().getRegion().getY()
-				+ ((RegionCamera) event.getProperty(GalaxyRegionScene.EVENT_CAMERA)).getY();
+				camera.getY(-getBody().getRegion().getY());
 		event.getContext().translate(
 				x,
 				y
