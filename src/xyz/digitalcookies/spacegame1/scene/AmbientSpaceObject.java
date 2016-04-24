@@ -6,6 +6,6 @@ package xyz.digitalcookies.spacegame1.scene;
  * asteroid.
  * @author Bryan Charles Bettis
  */
-public abstract class AmbientSpaceObject
+public abstract class AmbientSpaceObject extends SpaceObject
 {
 }

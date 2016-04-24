@@ -4,18 +4,14 @@ import xyz.digitalcookies.objective.scene.Entity;
 import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 import xyz.digitalcookies.spacegame1.PlaneVector;
 
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
-import xyz.digitalcookies.objective.graphics.ImageDrawer;
-import xyz.digitalcookies.objective.graphics.RenderEvent;
 import xyz.digitalcookies.objective.input.Keyboard;
 import xyz.digitalcookies.objective.input.Mouse;
 
 import static java.awt.event.KeyEvent.*;
-//import static java.awt.event.MouseEvent.*;
+import static java.awt.event.MouseEvent.*;
 
 /** A unit that can be controlled directly by the player (or an AI.)
  * A spacecraft that is pilotable.
@@ -32,6 +28,7 @@ public class Spaceship extends SentientSpaceObject
 	{
 		getBody().getRegion().setRadius(70);
 		getBody().getRegion().getPosition().setVectorComp(x, y);
+		getModules().add(new Railgun());
 	}
 	
 	@Override
@@ -56,31 +53,34 @@ public class Spaceship extends SentientSpaceObject
 	}
 	
 	@Override
-	public void render(RenderEvent event)
+	public String getMainImage()
 	{
-		super.render(event);
-		RegionCamera camera =
-				(RegionCamera) event.getProperty(GalaxyRegionScene.EVENT_CAMERA);
-		AffineTransform orig = event.getContext().getTransform();
-		event.getContext().rotate(-getBody().getDirection().getDirectionRad(), 0, 0);
-		BufferedImage img =
-				GraphicsManager.getResManager().getRes("blueships1.png");
-		double w = getBody().getRegion().getRadius()*2*camera.getScale();
-		double h = img.getHeight()*w/img.getWidth();
-		ImageDrawer.drawGraphic(
-				event.getContext(),
-				img,
-				-(int)(w/2),
-				-(int)(h/2),
-				(int) w,
-				(int) h
-				);
-		event.getContext().setTransform(orig);
+		return "blueships1.png";
 	}
 	
 	protected void updatePlayer(EntityUpdateEvent event)
 	{
 		PlaneVector steering = new PlaneVector();
+		if (Mouse.isDown(BUTTON1))
+		{
+			for (SentientObjectModule module : getModules())
+			{
+				if (module instanceof Weapon)
+				{
+					((Weapon) module).setActive(true);
+				}
+			}
+		}
+		else
+		{
+			for (SentientObjectModule module : getModules())
+			{
+				if (module instanceof Weapon)
+				{
+					((Weapon) module).setActive(false);
+				}
+			}
+		}
 		// Apply steering forward
 		if (Keyboard.isDown(VK_W))
 		{

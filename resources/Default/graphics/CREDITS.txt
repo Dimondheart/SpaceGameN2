@@ -16,3 +16,6 @@ Maps/galaxy_cloud_1.jpg
 
 RegionBG/white_star_field_1.jpg
 - http://www.axsysnav.eu/space/
+
+asteroid1.png
+- http://opengameart.org/content/asteroids

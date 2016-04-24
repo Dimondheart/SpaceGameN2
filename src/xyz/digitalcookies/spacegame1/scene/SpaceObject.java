@@ -1,10 +1,15 @@
 package xyz.digitalcookies.spacegame1.scene;
 
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
+import xyz.digitalcookies.objective.graphics.GraphicsManager;
+import xyz.digitalcookies.objective.graphics.ImageDrawer;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
 import xyz.digitalcookies.objective.scene.Entity;
 import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
+import xyz.digitalcookies.spacegame1.Circle;
 
 /** Any independent entity existing within a galaxy region.
  * "Independent" means that its operation is not dependent
@@ -18,10 +23,12 @@ public abstract class SpaceObject implements Entity
 	public static final String EVENT_PLAYER_CTRL = "playerCtrl";
 	
 	private SpaceBody body;
+	private boolean isDestroyed;
 	
 	public SpaceObject()
 	{
 		body = new SpaceBody();
+		isDestroyed = false;
 	}
 	
 	@Override
@@ -56,6 +63,21 @@ public abstract class SpaceObject implements Entity
 //				(int) (tbc.getRadius()*2*camera.getScale()),
 //				(int) (tbc.getRadius()*2*camera.getScale())
 //				);
+		AffineTransform orig = event.getContext().getTransform();
+		event.getContext().rotate(-getBody().getDirection().getDirectionRad(), 0, 0);
+		BufferedImage img =
+				GraphicsManager.getResManager().getRes(getMainImage());
+		double w = getBody().getRegion().getRadius()*2*camera.getScale();
+		double h = img.getHeight()*w/img.getWidth();
+		ImageDrawer.drawGraphic(
+				event.getContext(),
+				img,
+				-(int)(w/2),
+				-(int)(h/2),
+				(int) w,
+				(int) h
+				);
+		event.getContext().setTransform(orig);
 //		PlaneVector mv = getBody().getVelocity().clone();
 //		mv.setMagnitude(mv.getMagnitude()*1.5);
 //		event.getContext().setColor(Color.green);
@@ -76,6 +98,13 @@ public abstract class SpaceObject implements Entity
 //				);
 	}
 	
+	public abstract String getMainImage();
+	
+	public boolean isDestroyed()
+	{
+		return isDestroyed;
+	}
+	
 	public SpaceBody getBody()
 	{
 		return body;
@@ -84,5 +113,10 @@ public abstract class SpaceObject implements Entity
 	public void updatePhysics(double elapsed)
 	{
 		getBody().update(elapsed);
+	}
+	
+	protected void setDestroyed(boolean destroyed)
+	{
+		isDestroyed = destroyed;
 	}
 }

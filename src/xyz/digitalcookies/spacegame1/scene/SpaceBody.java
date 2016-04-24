@@ -36,6 +36,16 @@ public class SpaceBody extends Body
 		return region;
 	}
 	
+	public double getMass()
+	{
+		return mass;
+	}
+	
+	public void setMass(double mass)
+	{
+		this.mass = mass;
+	}
+	
 	/** Get the vector representing the direction this body is
 	 * facing.
 	 * @return the vector representing the direction this body

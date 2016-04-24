@@ -5,6 +5,10 @@ import xyz.digitalcookies.objective.scene.Entity;
 import xyz.digitalcookies.objective.scene.EntityContainer;
 import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
 import xyz.digitalcookies.objective.scene.Scene;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.graphics.ImageDrawer;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
@@ -18,6 +22,8 @@ import xyz.digitalcookies.objective.input.Mouse;
 public class GalaxyRegionScene extends Scene implements Renderer
 {
 	public static final String EVENT_CAMERA = "camera";
+	public static final String EVENT_NEW_OBJECTS = "newObj";
+	
 	private EntityContainer objects;
 	private int currTarget = 0;
 	private RegionCamera camera;
@@ -33,9 +39,20 @@ public class GalaxyRegionScene extends Scene implements Renderer
 		playerShip = new Spaceship();
 		camera.follow(playerShip);
 		objects.addEntity(new SpaceStation());
+		objects.addEntity(new Asteroid(data.getResAmt(), 1600, 0));
 		objects.addEntity(playerShip);
 		objects.addEntity(new Spaceship());
 		objects.addEntity(new Spaceship(300, -20));
+//		objects.setCycleRemoveIf(
+//				(Entity e)->
+//				{
+//					return 
+//						(
+//							e instanceof SpaceObject &&
+//							((SpaceObject) e).isDestroyed()
+//						);
+//				}
+//				);
 	}
 	
 	@Override
@@ -45,6 +62,7 @@ public class GalaxyRegionScene extends Scene implements Renderer
 		eue.setProperty(SpaceObject.EVENT_ELAPSED, event.getProperty(Scene.UPDATE_ELAPSED));
 		eue.setProperty(SpaceObject.EVENT_ENTITIES, objects.getEntities());
 		eue.setProperty(SpaceObject.EVENT_PLAYER_CTRL, playerShip);
+		eue.setProperty(EVENT_NEW_OBJECTS, new LinkedList<SpaceObject>());
 		objects.updateEntities(eue);
 		// After primary updates, update the physics of each object
 		objects.getEntities((Entity e)->{return e instanceof SpaceObject;}).forEach(
@@ -55,6 +73,14 @@ public class GalaxyRegionScene extends Scene implements Renderer
 							);
 				}
 				);
+		objects.addEntities(((List<Entity>) eue.getProperty(EVENT_NEW_OBJECTS)));
+		for (Entity e : objects.getEntities((Entity e)->{return e instanceof SpaceObject;}))
+		{
+			if (((SpaceObject) e).isDestroyed())
+			{
+				objects.removeEntity(e);
+			}
+		}
 		if (Mouse.getWheelChange() > 0)
 		{
 			camera.zoomIn();
