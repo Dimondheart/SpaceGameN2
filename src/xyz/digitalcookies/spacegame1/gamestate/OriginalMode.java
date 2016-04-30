@@ -10,8 +10,8 @@ import xyz.digitalcookies.objective.input.gui.Button;
 import xyz.digitalcookies.objective.input.gui.GUIPanel;
 import xyz.digitalcookies.objective.scene.SceneUpdateEvent;
 import xyz.digitalcookies.objective.sound.SoundManager;
-import xyz.digitalcookies.spacegame1.scene.GalaxyRegionData;
-import xyz.digitalcookies.spacegame1.scene.GalaxyRegionScene;
+import xyz.digitalcookies.spacegame1.scene.RegionData;
+import xyz.digitalcookies.spacegame1.scene.RegionScene;
 
 import static java.awt.event.KeyEvent.*;
 //import static java.awt.event.MouseEvent.*;
@@ -26,23 +26,23 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 	/** The settings menu for changing gameplay and general settings. */
 	private GUIPanel settingsMenu;
 	/** A scene for testing/development purposes. */
-	private GalaxyRegionScene testScene;
+	private RegionScene testScene;
 	/** Indicates when the current scene should be paused. */
 	private boolean scenePaused = false;
 	
 	@Override
 	protected void setupState(ConcurrentHashMap<String, Object> setupArgs)
 	{
-		GalaxyRegionData regData =
-				(GalaxyRegionData)
-				setupArgs.getOrDefault("regionData", new GalaxyRegionData());
+		RegionData regData =
+				(RegionData)
+				setupArgs.getOrDefault("regionData", new RegionData());
 		Settings.setSetting(Settings.INVERT_SCROLL_WHEEL, true);
 		// Basic setup stuff
 		SoundManager.playBGM("Into_the_Unknown.wav", SoundManager.BGMTransition.IMMEDIATE);
 		// Make instances
 		pauseMenu = new GUIPanel(0,0);
 		settingsMenu = new GUIPanel(0,0);
-		testScene = new GalaxyRegionScene(regData);
+		testScene = new RegionScene(regData);
 		// Add to secondary containers
 		pauseMenu.addRenderer(new Button(0,0,100,25,"Quit to Main Menu"), "mainMenu");
 		pauseMenu.addRenderer(new Button(0,0,100,25,"Resume"), "resume", RelativePosition.ABOVE, "mainMenu");
@@ -138,7 +138,6 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 	@Override
 	protected void cleanupState()
 	{
-		Settings.setSetting(Settings.INVERT_SCROLL_WHEEL, true);
 		SoundManager.stopBGM();
 		GraphicsManager.clearAll();
 	}

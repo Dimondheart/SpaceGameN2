@@ -11,12 +11,16 @@ import xyz.digitalcookies.objective.graphics.ImageDrawer;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
 import xyz.digitalcookies.objective.graphics.Renderer;
 import xyz.digitalcookies.objective.input.Mouse;
-import xyz.digitalcookies.spacegame1.scene.GalaxyRegionData;
+import xyz.digitalcookies.spacegame1.scene.RegionData;
 
 import static java.awt.event.MouseEvent.*;
 
+/** Used to test some map generation ideas.
+ * @author Bryan Charles Bettis
+ */
 public class MapTest extends GameState implements Renderer
 {
+	/** Used to select random numbers. */
 	Random rand;
 	
 	@Override
@@ -41,7 +45,7 @@ public class MapTest extends GameState implements Renderer
 		int x2 = cx + r;
 		int y2 = cy + r;
 		BufferedImage img =
-				GraphicsManager.getResManager().getRes("Maps/galaxy_cloud_1.jpg");
+				GraphicsManager.getResManager().getRes("galaxy_cloud_1.jpg");
 		if (x1 < 0)
 		{
 			x1 = 0;
@@ -75,7 +79,7 @@ public class MapTest extends GameState implements Renderer
 		System.out.print(avg);
 		System.out.print(", Randomized (Normal Distribution): ");
 		System.out.println(ra);
-		GalaxyRegionData regData = new GalaxyRegionData();
+		RegionData regData = new RegionData();
 		regData.setResAmt(ra);
 		this.getNewStateArgs().put("regionData", regData);
 		changeState(OriginalMode.class);
@@ -89,6 +93,6 @@ public class MapTest extends GameState implements Renderer
 	@Override
 	public void render(RenderEvent event)
 	{
-		ImageDrawer.drawGraphic(event.getContext(), "Maps/galaxy_cloud_1.jpg", 0, 0);
+		ImageDrawer.drawGraphic(event.getContext(), "galaxy_cloud_1.jpg", 0, 0);
 	}
 }

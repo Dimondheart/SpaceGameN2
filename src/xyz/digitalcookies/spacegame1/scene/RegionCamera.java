@@ -3,6 +3,7 @@ package xyz.digitalcookies.spacegame1.scene;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.scene.Camera;
 import xyz.digitalcookies.spacegame1.PlaneVector;
+import xyz.digitalcookies.spacegame1.spaceentity.SpaceObject;
 
 /** The camera for a galaxy region scene.
  * @author Bryan Charles Bettis

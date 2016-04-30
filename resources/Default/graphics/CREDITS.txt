@@ -11,7 +11,7 @@ blueships1.png: MillionthVector http://millionthvector.blogspot.de
 starbase-tex.png: MillionthVector http://millionthvector.blogspot.de
 - ???
 
-Maps/galaxy_cloud_1.jpg
+galaxy_cloud_1.jpg
 - https://newevolutiondesigns.com/40-super-hd-galaxy-wallpapers
 
 RegionBG/white_star_field_1.jpg
