@@ -1,17 +1,16 @@
 package xyz.digitalcookies.spacegame1.spaceentity;
 
-import java.awt.Color;
-import java.util.ArrayList;
+import xyz.digitalcookies.spacegame1.HullData;
 
 public abstract class Hull extends SpaceBody
 {
-	private ArrayList<SpacecraftModule> modules;
+	private SpacecraftModule[] modules;
 	private double maxHI;
 	private double hi;
 	
-	public Hull()
+	public Hull(HullData hullData)
 	{
-		modules = new ArrayList<SpacecraftModule>();
+		modules = new SpacecraftModule[hullData.getModuleSpace()];
 	}
 	
 	@Override

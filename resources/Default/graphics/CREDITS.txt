@@ -5,10 +5,10 @@ are only being used for testing purposes.
 
 Credits/Sources for Graphics:
 
-blueships1.png: MillionthVector http://millionthvector.blogspot.de
+hulls/smalldrone/testdrone/base.png: MillionthVector http://millionthvector.blogspot.de
 - http://opengameart.org/content/blue-fighter-spaceship
 
-starbase-tex.png: MillionthVector http://millionthvector.blogspot.de
+hulls/station/teststation/base.png: MillionthVector http://millionthvector.blogspot.de
 - ???
 
 galaxy_cloud_1.jpg
