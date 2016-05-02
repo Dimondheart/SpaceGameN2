@@ -2,15 +2,19 @@ package xyz.digitalcookies.spacegame1.spaceentity;
 
 import xyz.digitalcookies.spacegame1.HullData;
 
-public abstract class Hull extends SpaceBody
+public class Hull extends SpaceBody
 {
+	private final HullData hullData;
 	private SpacecraftModule[] modules;
-	private double maxHI;
 	private double hi;
 	
 	public Hull(HullData hullData)
 	{
+		this.hullData = hullData;
 		modules = new SpacecraftModule[hullData.getModuleSpace()];
+		setHI(hullData.getMaxHI());
+		setHP(getHI());
+		getRegion().setRadius(hullData.getRadius());
 	}
 	
 	@Override
@@ -27,21 +31,9 @@ public abstract class Hull extends SpaceBody
 		}
 	}
 	
-	/** The maximum hull integrity value. */
-	public double getMaxHI()
+	public HullData getHullData()
 	{
-		return maxHI;
-	}
-	
-	/** Change the maximum hull integrity value of this hull. */
-	public void setMaxHI(double maxHI)
-	{
-		this.maxHI = maxHI;
-		// Hull integrity should not exceed max
-		if (maxHI < getHI())
-		{
-			setHI(getMaxHI());
-		}
+		return hullData;
 	}
 	
 	public double getHI()
@@ -51,9 +43,9 @@ public abstract class Hull extends SpaceBody
 	
 	public void setHI(double hi)
 	{
-		if (hi > getMaxHI())
+		if (hi > getHullData().getMaxHI())
 		{
-			this.hi = getMaxHI();
+			this.hi = getHullData().getMaxHI();
 		}
 		else
 		{
@@ -66,7 +58,7 @@ public abstract class Hull extends SpaceBody
 		setHI(getHI() - hit.getHIDamage());
 		setHP(getHP() - hit.getHPDamage());
 		System.out.println("~~Hit Applied~~");
-		System.out.println("MaxHP: " + String.format("%.2f", getMaxHI()));
+		System.out.println("MaxHP: " + String.format("%.2f", getHullData().getMaxHI()));
 		System.out.println("HI: " + String.format("%.2f", getHI()));
 		System.out.println("HP: " + String.format("%.2f", getHP()));
 		return true;

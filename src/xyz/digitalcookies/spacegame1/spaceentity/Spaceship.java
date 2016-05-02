@@ -2,6 +2,7 @@ package xyz.digitalcookies.spacegame1.spaceentity;
 
 import xyz.digitalcookies.objective.scene.Entity;
 import xyz.digitalcookies.objective.scene.EntityUpdateEvent;
+import xyz.digitalcookies.spacegame1.HullData;
 import xyz.digitalcookies.spacegame1.PlaneVector;
 import xyz.digitalcookies.spacegame1.scene.RegionScene;
 
@@ -20,6 +21,11 @@ import static java.awt.event.MouseEvent.*;
  */
 public class Spaceship extends Spacecraft
 {
+	public Spaceship(HullData hullData)
+	{
+		super(hullData);
+	}
+
 	@Override
 	public void update(EntityUpdateEvent event)
 	{

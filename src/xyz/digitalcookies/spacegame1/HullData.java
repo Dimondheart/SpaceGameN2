@@ -17,11 +17,42 @@ public class HullData
 	/** The general description of this hull. */
 	private String desc;
 	/** The hull tier of this hull. */
-	private String tier;
+	private HullTier tier;
 	/** The maximum hull integrity. */
 	private int maxHI;
 	/** Space for non-weapon modules. */
 	private int moduleSpace;
+	private double radius;
+	
+	public enum HullTier
+	{
+		SMALL_DRONE("smalldrone","small drone"),
+		LARGE_DRONE("largedrone","large drone"),
+		SIZE_3("size3","size three"),
+		SIZE_4("size4","size four"),
+		SIZE_5("size5","size five"),
+		CAPITAL_SHIP("capitalship","capital ship"),
+		STATION("station","station");
+		
+		private String resPath;
+		private String commonName;
+		
+		private HullTier(String resPath, String commonName)
+		{
+			this.resPath = resPath;
+			this.commonName = commonName;
+		}
+		
+		public String getResDir()
+		{
+			return resPath;
+		}
+		
+		public String getCommonName()
+		{
+			return commonName;
+		}
+	}
 	
 	/** Sets all properties to default values. */
 	public HullData()
@@ -29,9 +60,10 @@ public class HullData
 		setCommonName("Unnamed Hull");
 		setResName("testship");
 		setDescription("A hull without a specified description.");
-		setTier("drone");
+		setTier(HullTier.SMALL_DRONE);
 		setMaxHI(1);
 		setModuleSpace(0);
+		setRadius(64);
 	}
 	
 	/** Get the name that this hull will be called in-game.
@@ -53,11 +85,11 @@ public class HullData
 	}
 	
 	/** Get the relative path to the resources of this hull.
-	 * @return the String getTier() + "/" + getResName()
+	 * @return the path to the resources for this hull within graphics/hulls/
 	 */
 	public String getResPath()
 	{
-		return getTier() + "/" + getResName();
+		return getTier().getResDir() + "/" + getResName();
 	}
 	
 	public String getDescription()
@@ -65,7 +97,7 @@ public class HullData
 		return desc;
 	}
 	
-	public String getTier()
+	public HullTier getTier()
 	{
 		return tier;
 	}
@@ -87,6 +119,11 @@ public class HullData
 		return moduleSpace;
 	}
 	
+	public double getRadius()
+	{
+		return radius;
+	}
+	
 	/** Setup hull data from the specified datablock lines and path indicating
 	 * the tier of the hull.
 	 * @param lines the lines from the hull data file
@@ -95,22 +132,13 @@ public class HullData
 	 */
 	public void setup(List<String> lines, String path)
 	{
-		// Set the tier based on the hull tier directory
-		if (path.contains("smalldrone"))
+		// Set the tier of the hull
+		for (HullTier tier : HullTier.values())
 		{
-			setTier("smalldrone");
-		}
-		else if (path.contains("largedrone"))
-		{
-			setTier("largedrone");
-		}
-		else if (path.contains("capitalship"))
-		{
-			setTier("capitalship");
-		}
-		else if (path.contains("station"))
-		{
-			setTier("station");
+			if (path.contains(tier.getResDir()))
+			{
+				setTier(tier);
+			}
 		}
 		// Set the name of the resource folder
 		int start = path.indexOf(File.separator);
@@ -152,6 +180,10 @@ public class HullData
 			{
 				setModuleSpace(Integer.parseInt(line.replace("module_space=", "")));
 			}
+			else if (line.startsWith("radius="))
+			{
+				setRadius(Double.parseDouble(line.replace("radius=", "")));
+			}
 			// Number of weapon link points on this ship
 			else if (line.startsWith("weapon_links="))
 			{
@@ -170,17 +202,17 @@ public class HullData
 	}
 	
 	/** Print all properties of this hull to the system output stream. */
-	public void printDebug()
+	@Override
+	public String toString()
 	{
-		System.out.println("~~~~~~~~~~Hull Data");
-		System.out.println("Common Name: " + getCommonName());
-		System.out.println("Tier: " + getTier());
-		System.out.println("Resource Name: " + getResName());
-		System.out.println("Rel Res Path: " + getResPath());
-		System.out.println("Max HI: " + getMaxHI());
-		System.out.println("Module Space: " + getModuleSpace());
-		System.out.println("Description: " + getDescription());
-		System.out.println("~~~~~~~~~~");
+		return "Hull Data:["
+		+ "Common Name:" + getCommonName()
+		+ ", Tier:" + getTier()
+		+ ", Resource Name:" + getResName()
+		+ ", Max HI:" + getMaxHI()
+		+ ", Module Space:" + getModuleSpace()
+		+ ", Description:" + getDescription()
+		+ "]";
 	}
 	
 	/** Set the common name of this hull (the name players will be shown.)
@@ -207,7 +239,7 @@ public class HullData
 	 * @param tier the tier (currently the name of the directory containing
 	 * 		the hull data file
 	 */
-	protected void setTier(String tier)
+	protected void setTier(HullTier tier)
 	{
 		if (tier != null)
 		{
@@ -234,5 +266,10 @@ public class HullData
 	protected void setModuleSpace(int space)
 	{
 		moduleSpace = space;
+	}
+	
+	protected void setRadius(double radius)
+	{
+		this.radius = radius;
 	}
 }

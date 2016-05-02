@@ -19,7 +19,7 @@ public class Railgun extends Weapon
 	{
 		super.update(event);
 		sinceLastFire +=
-				(double) event.getProperty(RegionScene.UPDATE_ELAPSED);
+				(double) event.getProperty(RegionScene.UEP_ELAPSED);
 		if (isActive() && sinceLastFire > 0.8)
 		{
 			Spacecraft parent =

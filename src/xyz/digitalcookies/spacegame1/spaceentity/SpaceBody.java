@@ -109,7 +109,9 @@ public class SpaceBody extends Body
 	
 	public void update(EntityUpdateEvent event)
 	{
-		double elapsed = (double) event.getProperty(RegionScene.UPDATE_ELAPSED);
+		double elapsed = (double) event.getProperty(
+				RegionScene.UEP_ELAPSED
+				);
 		/* Offset the steering force before using it as the acceleration
 		 * vector. This makes the velocity change towards the
 		 * desired direction, defined by the steering force, faster.

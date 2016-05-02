@@ -1,7 +1,4 @@
 /**
- * 
- */
-/**
  * @author Bryan Charles Bettis
  *
  */

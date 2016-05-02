@@ -1,11 +1,11 @@
 #!! Basic data
-common_name=Test Drone
-description=A small drone class spacecraft for testing.
+common_name=Test Capital Ship
+description=A capital ship class spacecraft for testing.
 
-radius=50
-module_space=6
-max_hi=100
-weapon_links=2
+radius=4000
+module_space=100
+max_hi=1500000
+weapon_links=80
 
 #!! First weapon link point
 weapon_links[0].x=0

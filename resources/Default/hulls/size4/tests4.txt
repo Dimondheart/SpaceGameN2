@@ -1,11 +1,11 @@
 #!! Basic data
-common_name=Test Drone
-description=A small drone class spacecraft for testing.
+common_name=Test Size 4
+description=A size 4 class spacecraft for testing.
 
-radius=50
-module_space=6
-max_hi=100
-weapon_links=2
+radius=400
+module_space=24
+max_hi=12000
+weapon_links=20
 
 #!! First weapon link point
 weapon_links[0].x=0

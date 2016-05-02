@@ -5,8 +5,7 @@ are only being used for testing purposes.
 
 Credits/Sources for Graphics:
 
-hulls/smalldrone/testdrone/base.png: MillionthVector http://millionthvector.blogspot.de
-- http://opengameart.org/content/blue-fighter-spaceship
+http://opengameart.org/content/space-ship-construction-kit#comment-form
 
 hulls/station/teststation/base.png: MillionthVector http://millionthvector.blogspot.de
 - ???
@@ -19,3 +18,5 @@ RegionBG/white_star_field_1.jpg
 
 asteroid1.png
 - http://opengameart.org/content/asteroids
+
+http://weknowyourdreamz.com/images/moon/moon-09.jpg

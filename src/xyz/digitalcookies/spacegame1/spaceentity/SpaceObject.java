@@ -60,19 +60,6 @@ public abstract class SpaceObject extends SpaceEntity
 //				);
 		AffineTransform orig = event.getContext().getTransform();
 		event.getContext().rotate(-getBody().getDirection().getDirectionRad(), 0, 0);
-		BufferedImage img =
-				GraphicsManager.getResManager().getRes("noImage.png");
-		double w = getBody().getRegion().getRadius()*2*camera.getScale();
-		double h = img.getHeight()*w/img.getWidth();
-		ImageDrawer.drawGraphic(
-				event.getContext(),
-				img,
-				-(int)(w/2),
-				-(int)(h/2),
-				(int) w,
-				(int) h
-				);
-		event.getContext().setTransform(orig);
 //		PlaneVector mv = getBody().getVelocity().clone();
 //		mv.setMagnitude(mv.getMagnitude()*1.5);
 //		event.getContext().setColor(Color.green);
@@ -98,5 +85,10 @@ public abstract class SpaceObject extends SpaceEntity
 	public SpaceBody getBody()
 	{
 		return body;
+	}
+	
+	protected void setBody(SpaceBody body)
+	{
+		this.body = body;
 	}
 }

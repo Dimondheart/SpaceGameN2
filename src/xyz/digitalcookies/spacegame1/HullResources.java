@@ -42,7 +42,7 @@ public class HullResources extends ResourceHandler<HullData>
 		path = path.substring(path.indexOf(File.separator));
 		path = path.replace(File.separator + "hulls" + File.separator, "");
 		data.setup(lines, path);
-		data.printDebug();
+		System.out.println(data.toString());
 		return data;
 	}
 	

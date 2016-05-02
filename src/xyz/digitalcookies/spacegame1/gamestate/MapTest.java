@@ -81,7 +81,7 @@ public class MapTest extends GameState implements Renderer
 		System.out.println(ra);
 		RegionData regData = new RegionData();
 		regData.setResAmt(ra);
-		this.getNewStateArgs().put("regionData", regData);
+		getNewStateArgs().put("regionData", regData);
 		changeState(OriginalMode.class);
 	}
 	
