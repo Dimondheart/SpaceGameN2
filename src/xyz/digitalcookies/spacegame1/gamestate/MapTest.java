@@ -93,6 +93,6 @@ public class MapTest extends GameState implements Renderer
 	@Override
 	public void render(RenderEvent event)
 	{
-		ImageDrawer.drawGraphic(event.getContext(), "galaxy_cloud_1.jpg", 0, 0);
+		ImageDrawer.drawGraphic(event.getGC(), "galaxy_cloud_1.jpg", 0, 0);
 	}
 }

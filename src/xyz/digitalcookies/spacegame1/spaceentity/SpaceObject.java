@@ -18,6 +18,7 @@ public abstract class SpaceObject extends SpaceEntity
 {
 	private SpaceBody body;
 	private boolean isDestroyed;
+	private IntelligentSteering steering;
 	
 	public SpaceObject()
 	{
@@ -34,6 +35,14 @@ public abstract class SpaceObject extends SpaceEntity
 	@Override
 	public void update(EntityUpdateEvent event)
 	{
+		try
+		{
+			getSteering().applySteering(this);
+		}
+		catch (NullPointerException e)
+		{
+			// No steering set
+		}
 		getBody().update(event);
 	}
 	
@@ -46,9 +55,14 @@ public abstract class SpaceObject extends SpaceEntity
 				camera.getX(getBody().getPos().getX());
 		int y = 
 				camera.getY(-getBody().getPos().getY());
-		event.getContext().translate(
+		event.getGC().translate(
 				x,
 				y
+				);
+		event.getGC().rotate(
+				-getBody().getDirection().getDirectionRad(),
+				0,
+				0
 				);
 //		Circle tbc = getBody().getRegion();
 //		event.getContext().setColor(Color.yellow);
@@ -58,8 +72,6 @@ public abstract class SpaceObject extends SpaceEntity
 //				(int) (tbc.getRadius()*2*camera.getScale()),
 //				(int) (tbc.getRadius()*2*camera.getScale())
 //				);
-		AffineTransform orig = event.getContext().getTransform();
-		event.getContext().rotate(-getBody().getDirection().getDirectionRad(), 0, 0);
 //		PlaneVector mv = getBody().getVelocity().clone();
 //		mv.setMagnitude(mv.getMagnitude()*1.5);
 //		event.getContext().setColor(Color.green);
@@ -81,6 +93,16 @@ public abstract class SpaceObject extends SpaceEntity
 	}
 	
 	public abstract boolean applyHit(Hit hit);
+	
+	public IntelligentSteering getSteering()
+	{
+		return steering;
+	}
+	
+	public void setSteering(IntelligentSteering steering)
+	{
+		this.steering = steering;
+	}
 	
 	public SpaceBody getBody()
 	{

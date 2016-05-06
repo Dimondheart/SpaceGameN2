@@ -1,21 +1,37 @@
 package xyz.digitalcookies.spacegame1;
 
-import xyz.digitalcookies.objective.EngineSetupData;
-import xyz.digitalcookies.objective.GameSession;
-import xyz.digitalcookies.spacegame1.gamestate.MainMenu;
-
-@SuppressWarnings("javadoc")
-public class Main
+/** Sets up and starts the game.
+ * @author Bryan Charles Bettis
+ */
+public class Main extends xyz.digitalcookies.objective.Game
 {
+	/** The hull data file resource manager. */
 	public static final HullResources HULL_RESOURCES = new HullResources();
+	/** An instance of this class (only needed until the engine fully transfers
+	 * over to JavaFX.)
+	 */
+	public static final Main MAIN = new Main();
 	
+	static
+	{
+		HULL_RESOURCES.initialize(HullResources.DATA_LOCATION, ".txt");
+	}
+	
+	/** Standard constructor. */
+	public Main()
+	{
+		super(
+				Main.class.getProtectionDomain().getCodeSource().getLocation(),
+				xyz.digitalcookies.spacegame1.gamestate.MainMenu.class
+				);
+	}
+	
+	/** Launches the game.
+	 * @param args the program arguments
+	 */
 	public static void main(String[] args)
 	{
-		EngineSetupData.setCodeSource(
-				Main.class.getProtectionDomain().getCodeSource().getLocation()
-				);
-		GameSession.setup(MainMenu.class);
-		HULL_RESOURCES.initialize(HullResources.DATA_LOCATION, ".txt");
-		GameSession.start();
+		MAIN.init();
+		MAIN.start();
 	}
 }

@@ -1,0 +1,6 @@
+#!! General data
+common_name=Test Station
+description=A station for testing.
+radius=2400
+module_space=10
+max_hi=10000

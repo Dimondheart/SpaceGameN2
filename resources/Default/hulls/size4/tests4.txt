@@ -1,18 +1,6 @@
-#!! Basic data
+#!! General data
 common_name=Test Size 4
 description=A size 4 class spacecraft for testing.
-
 radius=400
 module_space=24
 max_hi=12000
-weapon_links=20
-
-#!! First weapon link point
-weapon_links[0].x=0
-weapon_links[0].y=0
-weapon_links[0].fixed=true
-
-#!! Second weapon link point
-weapon_links[1].x=10
-weapon_links[1].y=200
-weapon_links[1].fixed=true

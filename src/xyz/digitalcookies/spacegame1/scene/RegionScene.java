@@ -1,6 +1,7 @@
 package xyz.digitalcookies.spacegame1.scene;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,11 +12,16 @@ import xyz.digitalcookies.objective.scene.Scene;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.graphics.ImageDrawer;
 import xyz.digitalcookies.objective.graphics.RenderEvent;
+import xyz.digitalcookies.objective.input.Keyboard;
 import xyz.digitalcookies.objective.input.Mouse;
 import xyz.digitalcookies.spacegame1.Main;
+import xyz.digitalcookies.spacegame1.spaceentity.PlayerSteering;
 import xyz.digitalcookies.spacegame1.spaceentity.SpaceEntity;
 import xyz.digitalcookies.spacegame1.spaceentity.SpaceObject;
 import xyz.digitalcookies.spacegame1.spaceentity.Spaceship;
+
+//import static java.awt.event.MouseEvent.*;
+import static java.awt.event.KeyEvent.*;
 
 /** Scene representing a generated region in the game.
  * @author Bryan Charles Bettis
@@ -29,11 +35,14 @@ public class RegionScene extends Scene
 	
 	private EntityContainer<SpaceEntity> entities;
 	private RegionCamera camera;
+	private Spaceship playerControlled;
+	private ArrayList<Spaceship> playerShips;
 	
 	public RegionScene(RegionData data)
 	{
 		camera = new RegionCamera();
 		entities = new EntityContainer<SpaceEntity>();
+		playerShips = new ArrayList<Spaceship>();
 		Spaceship s =
 				new Spaceship(Main.HULL_RESOURCES.getRes("smalldrone/testdrone.txt"));
 		Spaceship s2 =
@@ -55,6 +64,12 @@ public class RegionScene extends Scene
 				new Spaceship(Main.HULL_RESOURCES.getRes("capitalship/testenemycap.txt"));
 		cap2.getBody().getPos().setVectorComp(22550, 0);
 		entities.addEntities(cap2, cap, s5, s4, s3, s2, s);
+		playerShips.add(s);
+		playerShips.add(s2);
+		playerShips.add(s3);
+		playerShips.add(s4);
+		playerShips.add(s5);
+		setPlayerControlled(s);
 	}
 	
 	@Override
@@ -74,13 +89,38 @@ public class RegionScene extends Scene
 		{
 			camera.zoomOut();
 		}
+		int playerCtrl = -1;
+		if (Keyboard.justPressed(VK_1))
+		{
+			playerCtrl = 0;
+		}
+		else if (Keyboard.justPressed(VK_2))
+		{
+			playerCtrl = 1;
+		}
+		else if (Keyboard.justPressed(VK_3))
+		{
+			playerCtrl = 2;
+		}
+		else if (Keyboard.justPressed(VK_4))
+		{
+			playerCtrl = 3;
+		}
+		else if (Keyboard.justPressed(VK_5))
+		{
+			playerCtrl = 4;
+		}
+		if (playerCtrl >= 0 && playerCtrl < playerShips.size())
+		{
+			setPlayerControlled(playerShips.get(playerCtrl));
+		}
 	}
 	
 	@Override
 	public void renderScene(RenderEvent event)
 	{
 		ImageDrawer.drawGraphic(
-				event.getContext(),
+				event.getGC(),
 				"RegionBG/white_star_field_1.jpg",
 				0,
 				0,
@@ -98,7 +138,7 @@ public class RegionScene extends Scene
 		double w = 1736482*camera.getScale();
 		double h = 1736482*camera.getScale();
 		ImageDrawer.drawGraphic(
-				event.getContext(),
+				event.getGC(),
 				img,
 				x-(int)(w/2),
 				y-(int)(h/2),
@@ -106,5 +146,34 @@ public class RegionScene extends Scene
 				(int) h
 				);
 		entities.render(event);
+	}
+	
+	private void setPlayerControlled(Spaceship ship)
+	{
+		// Ship already set
+		if (ship == playerControlled)
+		{
+			return;
+		}
+		// Remove the player from the previously controlled ship
+		try
+		{
+			playerControlled.removePlayer();
+		}
+		catch (NullPointerException e)
+		{
+		}
+		// Set the new controlled ship
+		playerControlled = ship;
+		// Update the camera & ship steering
+		if (ship == null)
+		{
+			camera.follow(null);
+		}
+		else
+		{
+			ship.setSteering(new PlayerSteering());
+			camera.follow(ship);
+		}
 	}
 }

@@ -1,18 +1,18 @@
-#!! Basic data
+#!! General data
 common_name=Test Drone
 description=A small drone class spacecraft for testing.
-
 radius=50
 module_space=6
 max_hi=100
-weapon_links=2
 
-#!! First weapon link point
-weapon_links[0].x=0
-weapon_links[0].y=0
-weapon_links[0].fixed=true
+#!! Weapon link 1
+weapon_link=
+.x=56
+.y=116.5
+.is_fixed=true
 
-#!! Second weapon link point
-weapon_links[1].x=10
-weapon_links[1].y=200
-weapon_links[1].fixed=true
+#!! Weapon link 2
+weapon_link=
+.x=56
+.y=6.5
+.is_fixed=true

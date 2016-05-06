@@ -21,15 +21,15 @@ public class TitleRenderer extends BoundedRenderer
 	public void render(RenderEvent event)
 	{
 //		super.render(event);
-		event.getContext().setColor(Color.white);
+		event.getGC().setColor(Color.white);
 		Font font = TextDrawer.getDefaultFont().deriveFont(32.0f);
 		int[] center = new int[2];
 		center[0] = getX() + getWidth()/2;
 		center[1] = getY() + getHeight()/2;
-		TextDrawer.drawText(event.getContext(),
+		TextDrawer.drawText(event.getGC(),
 				toDraw,
 				TextDrawer.centerOverPoint(
-						event.getContext(),
+						event.getGC(),
 						toDraw,
 						center,
 						font

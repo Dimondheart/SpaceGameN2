@@ -1,6 +1,8 @@
 package xyz.digitalcookies.spacegame1;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /** Contains all necessary data for generating a bare-bones Hull.
@@ -22,8 +24,18 @@ public class HullData
 	private int maxHI;
 	/** Space for non-weapon modules. */
 	private int moduleSpace;
+	/** The radius of this hull (bounds most of hull regardless of angle). */
 	private double radius;
+	/** The points where weapons can be attached to the hull. */
+	private ArrayList<HashMap<WeaponLinkProperty,Object>> weaponLinks;
+	/** Used for setting sub-properties of certain properties, such as
+	 * weapon links.
+	 */
+	private Object settingPropsOf;
 	
+	/** The tier of a hull, meaning its classification.
+	 * @author Bryan Charles Bettis
+	 */
 	public enum HullTier
 	{
 		SMALL_DRONE("smalldrone","small drone"),
@@ -54,6 +66,17 @@ public class HullData
 		}
 	}
 	
+	/** Properties of a weapon link point, which is a spot on a hull where
+	 * a weapon can be mounted.
+	 * @author Bryan Charles Bettis
+	 */
+	public enum WeaponLinkProperty
+	{
+		X,
+		Y,
+		IS_FIXED;
+	}
+	
 	/** Sets all properties to default values. */
 	public HullData()
 	{
@@ -64,6 +87,7 @@ public class HullData
 		setMaxHI(1);
 		setModuleSpace(0);
 		setRadius(64);
+		weaponLinks = new ArrayList<HashMap<WeaponLinkProperty,Object>>();
 	}
 	
 	/** Get the name that this hull will be called in-game.
@@ -122,6 +146,11 @@ public class HullData
 	public double getRadius()
 	{
 		return radius;
+	}
+	
+	public ArrayList<HashMap<WeaponLinkProperty,Object>> getWeaponLinks()
+	{
+		return weaponLinks;
 	}
 	
 	/** Setup hull data from the specified datablock lines and path indicating
@@ -185,18 +214,43 @@ public class HullData
 				setRadius(Double.parseDouble(line.replace("radius=", "")));
 			}
 			// Number of weapon link points on this ship
-			else if (line.startsWith("weapon_links="))
+			else if (line.startsWith("weapon_link="))
 			{
+				weaponLinks.add(newWeaponLink());
+				settingPropsOf = weaponLinks;
+				System.out.println("new wl");
 			}
-			// Weapon link point configuration
-			else if (line.startsWith("weapon_links["))
+			// Setting a sub-property of a hull property
+			else if (line.startsWith("."))
 			{
-				int link = Integer.parseInt(
-						line.substring(
-								line.indexOf("[")+1,
-								line.indexOf("]")
-								)
-						);
+				// Setting a sub-property of a weapon link
+				if (settingPropsOf == weaponLinks)
+				{
+					HashMap<WeaponLinkProperty, Object> currLink =
+							weaponLinks.get(weaponLinks.size()-1);
+					String val = line.substring(line.indexOf("=")+1);
+					if (line.startsWith(".x="))
+					{
+						currLink.put(
+								WeaponLinkProperty.X,
+								Double.parseDouble(val)
+								);
+					}
+					else if (line.startsWith(".y="))
+					{
+						currLink.put(
+								WeaponLinkProperty.Y,
+								Double.parseDouble(val)
+								);
+					}
+					else if (line.startsWith(".is_fixed="))
+					{
+						currLink.put(
+								WeaponLinkProperty.IS_FIXED,
+								Boolean.parseBoolean(val)
+								);
+					}
+				}
 			}
 		}
 	}
@@ -271,5 +325,16 @@ public class HullData
 	protected void setRadius(double radius)
 	{
 		this.radius = radius;
+	}
+	
+	private HashMap<WeaponLinkProperty, Object> newWeaponLink()
+	{
+		HashMap<WeaponLinkProperty, Object> hm =
+				new HashMap<WeaponLinkProperty, Object>();
+		// Set default values
+		hm.put(WeaponLinkProperty.X, 0);
+		hm.put(WeaponLinkProperty.Y, 0);
+		hm.put(WeaponLinkProperty.IS_FIXED, true);
+		return hm;
 	}
 }
