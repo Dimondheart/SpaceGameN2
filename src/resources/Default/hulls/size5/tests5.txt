@@ -1,4 +1,5 @@
 #!! General data
+resource_name=size5/tests5
 common_name=Test Size 5
 description=A size 5 class spacecraft for testing.
 radius=800

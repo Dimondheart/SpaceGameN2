@@ -2,9 +2,8 @@ package xyz.digitalcookies.spacegame1.gamestate;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
-
 import xyz.digitalcookies.objective.gamestate.GameState;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.graphics.ImageDrawer;
@@ -24,7 +23,7 @@ public class MapTest extends GameState implements Renderer
 	Random rand;
 	
 	@Override
-	protected void setupState(ConcurrentHashMap<String, Object> setupArgs)
+	protected void setupState(HashMap<String, Object> args)
 	{
 		GraphicsManager.getMainLayerSet().addRenderer(this, 4);
 		rand = new Random();

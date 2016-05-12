@@ -1,4 +1,5 @@
 #!! General data
+resource_name=largedrone/testdrone2
 common_name=Test Drone Two
 description=A large drone class spacecraft for testing.
 radius=100

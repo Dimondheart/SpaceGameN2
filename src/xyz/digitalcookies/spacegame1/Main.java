@@ -1,9 +1,11 @@
 package xyz.digitalcookies.spacegame1;
 
+import xyz.digitalcookies.objective.Game;
+
 /** Sets up and starts the game.
  * @author Bryan Charles Bettis
  */
-public class Main extends xyz.digitalcookies.objective.Game
+public class Main extends Game
 {
 	/** The hull data file resource manager. */
 	public static final HullResources HULL_RESOURCES = new HullResources();
@@ -20,10 +22,7 @@ public class Main extends xyz.digitalcookies.objective.Game
 	/** Standard constructor. */
 	public Main()
 	{
-		super(
-				Main.class.getProtectionDomain().getCodeSource().getLocation(),
-				xyz.digitalcookies.spacegame1.gamestate.MainMenu.class
-				);
+		super(xyz.digitalcookies.spacegame1.gamestate.MainMenu.class);
 	}
 	
 	/** Launches the game.

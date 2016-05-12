@@ -1,4 +1,5 @@
 #!! General data
+resource_name=smalldrone/testdrone
 common_name=Test Drone
 description=A small drone class spacecraft for testing.
 radius=50

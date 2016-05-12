@@ -156,33 +156,9 @@ public class HullData
 	/** Setup hull data from the specified datablock lines and path indicating
 	 * the tier of the hull.
 	 * @param lines the lines from the hull data file
-	 * @param path the relative path of the data file; containing the hull tier
-	 * 		folder and the data file
 	 */
-	public void setup(List<String> lines, String path)
+	public void setup(List<String> lines)
 	{
-		// Set the tier of the hull
-		for (HullTier tier : HullTier.values())
-		{
-			if (path.contains(tier.getResDir()))
-			{
-				setTier(tier);
-			}
-		}
-		// Set the name of the resource folder
-		int start = path.indexOf(File.separator);
-		// Leave as default if there was an issue excluding the folder
-		if (start >= 0)
-		{
-			// Exclude the file extension
-			int end = path.indexOf(".");
-			// Doesn't have a file extension; go to end of string
-			if (end < 0)
-			{
-				end = path.length();
-			}
-			setResName(path.substring(start+1, end));
-		}
 		for (String raw : lines)
 		{
 			// Remove padding whitespace
@@ -191,6 +167,34 @@ public class HullData
 			if (line.contains("#!!"))
 			{
 				continue;
+			}
+			// The tier and resource name indicator
+			else if (line.startsWith("resource_name="))
+			{
+				String resPathText = line.replace("resource_name=", "");
+				// Set the tier of the hull
+				for (HullTier tier : HullTier.values())
+				{
+					if (resPathText.contains(tier.getResDir()))
+					{
+						setTier(tier);
+						break;
+					}
+				}
+				// Set the name of the resource folder
+				int start = resPathText.indexOf("/");
+				// Leave as default if there was an issue excluding the folder
+				if (start >= 0)
+				{
+					// Exclude the file extension
+					int end = resPathText.indexOf(".");
+					// Doesn't have a file extension; go to end of string
+					if (end < 0)
+					{
+						end = resPathText.length();
+					}
+					setResName(resPathText.substring(start+1, end));
+				}
 			}
 			else if (line.startsWith("common_name="))
 			{

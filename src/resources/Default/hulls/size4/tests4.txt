@@ -1,4 +1,5 @@
 #!! General data
+resource_name=size4/tests4
 common_name=Test Size 4
 description=A size 4 class spacecraft for testing.
 radius=400

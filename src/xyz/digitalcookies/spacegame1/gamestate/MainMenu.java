@@ -1,7 +1,6 @@
 package xyz.digitalcookies.spacegame1.gamestate;
 
-import java.util.concurrent.ConcurrentHashMap;
-
+import java.util.HashMap;
 import xyz.digitalcookies.objective.gamestate.GameState;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.graphics.RendererPanel.RelativePosition;
@@ -29,7 +28,7 @@ public class MainMenu extends GameState
 	private GUIPanel settingsMenu;
 	
 	@Override
-	public void setupState(ConcurrentHashMap<String, Object> args)
+	public void setupState(HashMap<String, Object> args)
 	{
 		// Create all instances
 		topMenu = new GUIPanel(0,0);

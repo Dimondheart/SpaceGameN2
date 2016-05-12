@@ -1,4 +1,5 @@
 #!! General data
+resource_name=capitalship/testcapital
 common_name=Test Capital Ship
 description=A capital ship class spacecraft for testing.
 radius=4000

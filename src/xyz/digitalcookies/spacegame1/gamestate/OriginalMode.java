@@ -1,7 +1,6 @@
 package xyz.digitalcookies.spacegame1.gamestate;
 
-import java.util.concurrent.ConcurrentHashMap;
-
+import java.util.HashMap;
 import xyz.digitalcookies.objective.Settings;
 import xyz.digitalcookies.objective.graphics.GraphicsManager;
 import xyz.digitalcookies.objective.graphics.RendererPanel.RelativePosition;
@@ -31,7 +30,7 @@ public class OriginalMode extends xyz.digitalcookies.objective.gamestate.GameSta
 	private boolean scenePaused = false;
 	
 	@Override
-	protected void setupState(ConcurrentHashMap<String, Object> setupArgs)
+	protected void setupState(HashMap<String, Object> setupArgs)
 	{
 		RegionData regData =
 				(RegionData)

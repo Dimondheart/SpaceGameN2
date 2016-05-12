@@ -121,7 +121,7 @@ public class Hull extends SpaceBody implements Renderer
 				(RegionCamera) event.getProperty(RegionScene.REP_CAMERA);
 		BufferedImage img =
 				GraphicsManager.getResManager().getRes(
-						"hulls/" + getHullData().getResPath()+"/base.png"
+						"hulls/" + getHullData().getResPath() +"/base.png"
 						);
 		double iw = getRegion().getRadius()*2.0*camera.getScale();
 		double ih = img.getHeight()*iw/img.getWidth();

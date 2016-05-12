@@ -1,4 +1,5 @@
 #!! General data
+resource_name=station/teststation
 common_name=Test Station
 description=A station for testing.
 radius=2400
